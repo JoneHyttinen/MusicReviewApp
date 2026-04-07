@@ -1,0 +1,24 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Artists</title>
+  </head>
+  <body>
+    <h1>Artists</h1>
+
+    <a href="/artists/new">Add Artist</a>
+
+    <form method="get" action="/artists">
+      <input type="text" name="keyword" placeholder="Search..." />
+      <button type="submit">Search</button>
+    </form>
+
+    <ul>
+      <li th:each="artist : ${artists}">
+        <span th:text="${artist.name}"></span>
+        <a th:href="@{/artists/edit/{id}(id=${artist.id})}">Edit</a>
+        <a th:href="@{/artists/delete/{id}(id=${artist.id})}">Delete</a>
+      </li>
+    </ul>
+  </body>
+</html>

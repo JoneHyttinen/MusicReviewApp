@@ -1,0 +1,26 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Album Details</title>
+  </head>
+  <body>
+    <h1 th:text="${album.title}"></h1>
+    <h3 th:text="${album.artist.name}"></h3>
+
+    <p th:text="${album.description}"></p>
+
+    <a th:href="@{/reviews/new/{id}(id=${album.id})}"> Add Review </a>
+
+    <h2>Reviews</h2>
+
+    <div th:each="review : ${reviews}">
+      <h4 th:text="${review.title}"></h4>
+      <p th:text="${review.content}"></p>
+      <strong th:text="${review.rating} + '/100'"></strong>
+
+      <a th:href="@{/reviews/delete/{id}(id=${review.id})}"> Delete </a>
+    </div>
+
+    <a href="/albums">Back</a>
+  </body>
+</html>

@@ -1,0 +1,43 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Album Form</title>
+  </head>
+  <body>
+    <h1>Add / Edit Album</h1>
+
+    <form th:action="@{/albums}" th:object="${album}" method="post">
+      <input type="hidden" th:field="*{id}" />
+
+      <div>
+        <label>Title:</label>
+        <input type="text" th:field="*{title}" />
+      </div>
+
+      <div>
+        <label>Release Year:</label>
+        <input type="number" th:field="*{releaseYear}" />
+      </div>
+
+      <div>
+        <label>Description:</label>
+        <textarea th:field="*{description}"></textarea>
+      </div>
+
+      <div>
+        <label>Artist:</label>
+        <select th:field="*{artist}">
+          <option
+            th:each="artist : ${artists}"
+            th:value="${artist.id}"
+            th:text="${artist.name}"
+          ></option>
+        </select>
+      </div>
+
+      <button type="submit">Save</button>
+    </form>
+
+    <a href="/albums">Back</a>
+  </body>
+</html>

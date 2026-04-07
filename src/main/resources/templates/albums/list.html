@@ -1,0 +1,21 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Albums</title>
+  </head>
+  <body>
+    <h1>Albums</h1>
+
+    <a href="/albums/new">Add Album</a>
+
+    <ul>
+      <li th:each="album : ${albums}">
+        <span th:text="${album.title}"></span> -
+        <span th:text="${album.artist.name}"></span>
+
+        <a th:href="@{/albums/edit/{id}(id=${album.id})}">Edit</a>
+        <a th:href="@{/albums/delete/{id}(id=${album.id})}">Delete</a>
+      </li>
+    </ul>
+  </body>
+</html>

@@ -1,0 +1,30 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Add Review</title>
+  </head>
+  <body>
+    <h1>Add Review</h1>
+
+    <form th:action="@{/reviews}" th:object="${review}" method="post">
+      <input type="hidden" th:field="*{album.id}" />
+
+      <div>
+        <label>Title:</label>
+        <input type="text" th:field="*{title}" />
+      </div>
+
+      <div>
+        <label>Content:</label>
+        <textarea th:field="*{content}"></textarea>
+      </div>
+
+      <div>
+        <label>Rating (0–100):</label>
+        <input type="number" th:field="*{rating}" />
+      </div>
+
+      <button type="submit">Save</button>
+    </form>
+  </body>
+</html>
