@@ -40,6 +40,9 @@ public class ReviewController {
     // SAVE
     @PostMapping
     public String saveReview(@ModelAttribute Review review) {
+        var album = albumService.findById(review.getAlbum().getId());
+        review.setAlbum(album);
+
         reviewService.save(review);
 
         return "redirect:/albums/" + review.getAlbum().getId();
@@ -48,7 +51,8 @@ public class ReviewController {
     // DELETE
     @GetMapping("/delete/{id}")
     public String deleteReview(@PathVariable Long id) {
+        var review = reviewService.findById(id);
         reviewService.deleteById(id);
-        return "redirect:/albums";
+        return "redirect:/albums/" + review.getAlbum().getId();
     }
 }

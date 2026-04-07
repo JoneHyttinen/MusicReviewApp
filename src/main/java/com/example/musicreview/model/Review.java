@@ -33,8 +33,8 @@ public class Review {
 
     private LocalDateTime updatedAt;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "user_id", nullable = true)
     private User user;
 
     @ManyToOne

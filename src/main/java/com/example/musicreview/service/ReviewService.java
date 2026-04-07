@@ -22,6 +22,10 @@ public class ReviewService {
         return reviewRepository.findByAlbum(album);
     }
 
+    public Review findById(Long id) {
+        return reviewRepository.findById(id).orElseThrow();
+    }
+
     public Review save(Review review) {
         review.setCreatedAt(LocalDateTime.now());
         return reviewRepository.save(review);
