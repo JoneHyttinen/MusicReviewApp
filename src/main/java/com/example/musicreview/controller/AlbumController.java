@@ -1,5 +1,6 @@
 package com.example.musicreview.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.musicreview.model.Album;
+import com.example.musicreview.model.Artist;
 import com.example.musicreview.service.AlbumService;
 import com.example.musicreview.service.ArtistService;
 
@@ -36,16 +38,25 @@ public class AlbumController {
 
     // FORM
     @GetMapping("/new")
+    @PreAuthorize("hasRole('ADMIN')")
     public String showCreateForm(Model model) {
-        model.addAttribute("album", new Album());
+        Album album = new Album();
+        album.setArtist(new Artist());
+
+        model.addAttribute("album", album);
         model.addAttribute("artists", artistService.findAll());
         return "albums/form";
     }
 
     // SAVE
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public String saveAlbum(@Valid @ModelAttribute Album album, BindingResult result, Model model) {
         if (result.hasErrors()) {
+            if (album.getArtist() == null) {
+                album.setArtist(new Artist());
+            }
+
             model.addAttribute("artists", artistService.findAll());
             return "albums/form";
         }
@@ -60,6 +71,7 @@ public class AlbumController {
 
     // EDIT
     @GetMapping("/edit/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String showEditForm(@PathVariable Long id, Model model) {
         model.addAttribute("album", albumService.findById(id));
         model.addAttribute("artists", artistService.findAll());
@@ -68,6 +80,7 @@ public class AlbumController {
 
     // DELETE
     @GetMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String deleteAlbum(@PathVariable Long id) {
         albumService.deleteById(id);
         return "redirect:/albums";

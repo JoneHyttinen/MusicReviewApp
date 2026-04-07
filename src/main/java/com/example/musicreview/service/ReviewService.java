@@ -22,6 +22,10 @@ public class ReviewService {
         return reviewRepository.findByAlbum(album);
     }
 
+    public List<Review> findAll() {
+        return reviewRepository.findAll();
+    }
+
     public Review findById(Long id) {
         return reviewRepository.findById(id).orElseThrow();
     }

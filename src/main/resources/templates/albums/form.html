@@ -1,12 +1,23 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
   <head>
     <title>Album Form</title>
   </head>
   <body>
+    <div th:replace="~{fragments/nav :: nav}"></div>
+
     <h1>Add / Edit Album</h1>
 
     <form th:action="@{/albums}" th:object="${album}" method="post">
+      <input
+        type="hidden"
+        th:name="${_csrf.parameterName}"
+        th:value="${_csrf.token}"
+      />
+
       <input type="hidden" th:field="*{id}" />
 
       <div>
@@ -26,7 +37,7 @@
 
       <div>
         <label>Artist:</label>
-        <select th:field="*{artist}">
+        <select th:field="*{artist.id}">
           <option
             th:each="artist : ${artists}"
             th:value="${artist.id}"

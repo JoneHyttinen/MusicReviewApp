@@ -1,12 +1,23 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
   <head>
     <title>Add Review</title>
   </head>
   <body>
+    <div th:replace="~{fragments/nav :: nav}"></div>
+
     <h1>Add Review</h1>
 
     <form th:action="@{/reviews}" th:object="${review}" method="post">
+      <input
+        type="hidden"
+        th:name="${_csrf.parameterName}"
+        th:value="${_csrf.token}"
+      />
+
       <input type="hidden" th:field="*{album.id}" />
 
       <div>
