@@ -1,5 +1,6 @@
 package com.example.musicreview.service;
 
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -20,6 +21,13 @@ public class ArtistService {
         return artistRepository.findAll();
     }
 
+    public List<Artist> findAllSortedByGenre() {
+        return artistRepository.findAll().stream()
+                .sorted(Comparator.comparing(Artist::getGenre, Comparator.nullsLast(String.CASE_INSENSITIVE_ORDER))
+                        .thenComparing(Artist::getName, String.CASE_INSENSITIVE_ORDER))
+                .toList();
+    }
+
     public Artist save(Artist artist) {
         return artistRepository.save(artist);
     }
@@ -33,6 +41,9 @@ public class ArtistService {
     }
 
     public List<Artist> search(String keyword) {
-        return artistRepository.findByNameContainingIgnoreCase(keyword);
+        return artistRepository.findByNameContainingIgnoreCase(keyword).stream()
+                .sorted(Comparator.comparing(Artist::getGenre, Comparator.nullsLast(String.CASE_INSENSITIVE_ORDER))
+                        .thenComparing(Artist::getName, String.CASE_INSENSITIVE_ORDER))
+                .toList();
     }
 }

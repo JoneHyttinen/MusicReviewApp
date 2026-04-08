@@ -13,24 +13,32 @@
 
     <a sec:authorize="hasRole('ADMIN')" href="/albums/new">Add Album</a>
 
-    <ul>
-      <li th:each="album : ${albums}">
-        <span th:text="${album.title}"></span> -
-        <span th:text="${album.artist.name}"></span>
+    <p th:if="${#maps.isEmpty(albumsByGenre)}">No albums found.</p>
 
-        <a th:href="@{/albums/{id}(id=${album.id})}">View</a>
+    <div th:each="entry : ${albumsByGenre}">
+      <h2 th:text="${entry.key}"></h2>
+      <ul>
+        <li th:each="album : ${entry.value}">
+          <span th:text="${album.title}"></span> -
+          <a
+            th:href="@{/artists/{id}(id=${album.artist.id})}"
+            th:text="${album.artist.name}"
+          ></a>
 
-        <a
-          sec:authorize="hasRole('ADMIN')"
-          th:href="@{/albums/edit/{id}(id=${album.id})}"
-          >Edit</a
-        >
-        <a
-          sec:authorize="hasRole('ADMIN')"
-          th:href="@{/albums/delete/{id}(id=${album.id})}"
-          >Delete</a
-        >
-      </li>
-    </ul>
+          <a th:href="@{/albums/{id}(id=${album.id})}">View</a>
+
+          <a
+            sec:authorize="hasRole('ADMIN')"
+            th:href="@{/albums/edit/{id}(id=${album.id})}"
+            >Edit</a
+          >
+          <a
+            sec:authorize="hasRole('ADMIN')"
+            th:href="@{/albums/delete/{id}(id=${album.id})}"
+            >Delete</a
+          >
+        </li>
+      </ul>
+    </div>
   </body>
 </html>

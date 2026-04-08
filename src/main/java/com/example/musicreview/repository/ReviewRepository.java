@@ -20,6 +20,9 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     long countByUser(User user);
 
+    @Query("SELECT AVG(r.rating) FROM Review r WHERE r.album = :album")
+    Double findAverageRatingByAlbum(@Param("album") Album album);
+
     @Query("SELECT AVG(r.rating) FROM Review r WHERE r.user = :user")
     Double findAverageRatingByUser(@Param("user") User user);
 }

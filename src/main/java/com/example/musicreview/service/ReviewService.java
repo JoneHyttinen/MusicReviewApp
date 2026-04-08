@@ -31,6 +31,11 @@ public class ReviewService {
         return reviewRepository.findTop5ByUserOrderByCreatedAtDesc(user);
     }
 
+    public double getAverageRatingForAlbum(Album album) {
+        Double average = reviewRepository.findAverageRatingByAlbum(album);
+        return average == null ? 0.0 : average;
+    }
+
     public Review findById(Long id) {
         return reviewRepository.findById(id).orElseThrow();
     }

@@ -1,0 +1,37 @@
+<!doctype html>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+  <head>
+    <title>Artist Details</title>
+  </head>
+  <body>
+    <div th:replace="~{fragments/nav :: nav}"></div>
+
+    <h1 th:text="${artist.name}"></h1>
+    <p>
+      Genre:
+      <strong th:text="${artist.genre}"></strong>
+    </p>
+    <p th:text="${artist.description}"></p>
+
+    <h2>Albums</h2>
+    <p th:if="${#lists.isEmpty(albums)}">No albums found for this artist.</p>
+
+    <ul>
+      <li th:each="album : ${albums}">
+        <a
+          th:href="@{/albums/{id}(id=${album.id})}"
+          th:text="${album.title}"
+        ></a>
+        <span th:text="${' (' + album.releaseYear + ')'}"></span>
+        <span
+          th:text="${' - Avg rating: ' + #numbers.formatDecimal(albumAverageRatings.get(album.id), 1, 2) + '/100'}"
+        ></span>
+      </li>
+    </ul>
+
+    <a href="/artists">Back</a>
+  </body>
+</html>

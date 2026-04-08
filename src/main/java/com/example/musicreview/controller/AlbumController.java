@@ -1,5 +1,10 @@
 package com.example.musicreview.controller;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,7 +37,8 @@ public class AlbumController {
     // LIST
     @GetMapping
     public String listAlbums(Model model) {
-        model.addAttribute("albums", albumService.findAll());
+        List<Album> albums = albumService.findAllSortedByGenre();
+        model.addAttribute("albumsByGenre", groupAlbumsByGenre(albums));
         return "albums/list";
     }
 
@@ -95,5 +101,23 @@ public class AlbumController {
         model.addAttribute("reviews", album.getReviews());
 
         return "albums/details";
+    }
+
+    private Map<String, List<Album>> groupAlbumsByGenre(List<Album> albums) {
+        Map<String, List<Album>> albumsByGenre = new LinkedHashMap<>();
+        for (Album album : albums) {
+            String genre = normalizeGenre(album.getArtist() == null ? null : album.getArtist().getGenre());
+            albumsByGenre.computeIfAbsent(genre, ignored -> new ArrayList<>()).add(album);
+        }
+
+        return albumsByGenre;
+    }
+
+    private String normalizeGenre(String genre) {
+        if (genre == null || genre.isBlank()) {
+            return "Unknown";
+        }
+
+        return genre;
     }
 }
