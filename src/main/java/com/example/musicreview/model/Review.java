@@ -2,6 +2,8 @@ package com.example.musicreview.model;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,10 +35,12 @@ public class Review {
 
     private LocalDateTime updatedAt;
 
+    @JsonIgnoreProperties("reviews")
     @ManyToOne(optional = true)
     @JoinColumn(name = "user_id", nullable = true)
     private User user;
 
+    @JsonIgnoreProperties("reviews")
     @ManyToOne
     @JoinColumn(name = "album_id", nullable = false)
     private Album album;

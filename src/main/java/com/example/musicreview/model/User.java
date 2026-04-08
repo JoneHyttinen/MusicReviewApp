@@ -3,6 +3,8 @@ package com.example.musicreview.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -51,6 +53,7 @@ public class User {
     @Column(name = "join_date", nullable = false)
     private LocalDate joinDate;
 
+    @JsonIgnoreProperties({ "user", "album" })
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
     private List<Review> reviews;
 
