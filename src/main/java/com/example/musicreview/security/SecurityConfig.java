@@ -42,6 +42,8 @@ public class SecurityConfig {
                                                                 "/artists", "/artists/*",
                                                                 "/reviews", "/users/*")
                                                 .permitAll()
+                                                .requestMatchers(HttpMethod.GET, "/users/*/edit")
+                                                .authenticated()
                                                 .requestMatchers(HttpMethod.GET, "/albums/new", "/albums/edit/**",
                                                                 "/albums/delete/**",
                                                                 "/artists/new", "/artists/edit/**",
@@ -51,6 +53,7 @@ public class SecurityConfig {
                                                                 "/reviews/edit/**", "/reviews/delete/**")
                                                 .authenticated()
                                                 .requestMatchers(HttpMethod.POST, "/reviews").authenticated()
+                                                .requestMatchers(HttpMethod.POST, "/users/*").authenticated()
                                                 .requestMatchers(HttpMethod.POST, "/albums", "/artists")
                                                 .hasRole("ADMIN")
                                                 .anyRequest().authenticated())

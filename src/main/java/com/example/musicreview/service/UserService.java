@@ -68,6 +68,10 @@ public class UserService implements UserDetailsService {
         return userRepository.save(user);
     }
 
+    public User save(User user) {
+        return userRepository.save(user);
+    }
+
     public void ensureAdminUserExists() {
         if (userRepository.existsByUsername("admin")) {
             return;

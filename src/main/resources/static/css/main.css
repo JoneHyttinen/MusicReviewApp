@@ -389,6 +389,72 @@ body > a {
   color: #ffd0d8;
 }
 
+.form-section {
+  display: grid;
+  place-items: center;
+  margin-top: 2rem;
+}
+
+.form-container {
+  width: min(100%, 36rem);
+  padding: 1.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 1.5rem;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.065),
+      rgba(255, 255, 255, 0.025)
+    ),
+    rgba(12, 19, 31, 0.92);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(18px);
+}
+
+.form-container h1 {
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  display: grid;
+  gap: 0.45rem;
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.button-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  width: fit-content;
+  padding: 0.78rem 1.05rem;
+  border-radius: 999px;
+  border: 1px solid rgba(125, 211, 252, 0.22);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  text-decoration: none;
+}
+
+.button-link--secondary {
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.button-link--secondary:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
 .section-card {
   margin-top: 1.4rem;
   padding: 1.25rem;
@@ -625,6 +691,40 @@ body > a {
   font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
+}
+
+.profile-bio {
+  margin-top: 1rem;
+  padding: 0.85rem 0.95rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.profile-bio p {
+  margin: 0;
+  color: var(--text);
+}
+
+.profile-genre {
+  margin-top: 0.75rem;
+  padding: 0.85rem 0.95rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.profile-genre span {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.profile-genre strong {
+  color: var(--accent);
+}
+
+.profile-actions {
+  margin-top: 1rem;
 }
 
 .profile-review-card {

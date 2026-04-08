@@ -34,6 +34,33 @@
             ></strong>
           </div>
         </div>
+
+        <div
+          th:if="${user.bio != null and !#strings.isEmpty(user.bio)}"
+          class="profile-bio"
+        >
+          <p th:text="${user.bio}"></p>
+        </div>
+
+        <div
+          th:if="${user.favoriteGenre != null and !#strings.isEmpty(user.favoriteGenre)}"
+          class="profile-genre"
+        >
+          <span
+            >Favorite Genre: <strong th:text="${user.favoriteGenre}"></strong
+          ></span>
+        </div>
+
+        <div class="profile-actions">
+          <a
+            sec:authorize="isAuthenticated()"
+            th:if="${#authentication.name == user.username}"
+            class="button-link"
+            th:href="@{/users/{id}/edit(id=${user.id})}"
+          >
+            Edit Profile
+          </a>
+        </div>
       </div>
     </section>
 
