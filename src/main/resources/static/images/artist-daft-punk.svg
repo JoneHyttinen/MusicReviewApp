@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f8f9fa"/>
+      <stop offset="55%" stop-color="#adb5bd"/>
+      <stop offset="100%" stop-color="#495057"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" fill="#101418"/>
+  <rect x="150" y="110" width="300" height="360" rx="120" fill="url(#g)"/>
+  <rect x="205" y="220" width="70" height="26" rx="13" fill="#101418"/>
+  <rect x="325" y="220" width="70" height="26" rx="13" fill="#101418"/>
+  <path d="M220 335 H380" stroke="#101418" stroke-width="18" stroke-linecap="round"/>
+  <text x="300" y="525" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#fff">DAFT PUNK</text>
+</svg>

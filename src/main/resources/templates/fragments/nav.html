@@ -4,11 +4,10 @@
   xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
   <body>
-    <div th:fragment="nav">
+    <div th:fragment="nav" class="site-nav">
       <nav>
         <a href="/albums">Albums</a>
         <a href="/artists">Artists</a>
-        <a href="/reviews">Reviews</a>
         <a sec:authorize="isAnonymous()" href="/login">Login</a>
         <a sec:authorize="isAnonymous()" href="/register">Register</a>
         <span sec:authorize="isAuthenticated()"

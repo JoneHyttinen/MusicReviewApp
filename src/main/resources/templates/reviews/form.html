@@ -3,13 +3,38 @@
   xmlns:th="http://www.thymeleaf.org"
   xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
-  <head>
-    <title>Add Review</title>
-  </head>
+  <head th:replace="~{fragments/head :: common('Add Review')}"></head>
   <body>
     <div th:replace="~{fragments/nav :: nav}"></div>
 
-    <h1>Add Review</h1>
+    <h1 th:text="${review.id == null ? 'Add Review' : 'Edit Review'}"></h1>
+
+    <section class="section-card">
+      <div class="section-card__header">
+        <h2>Reviewing</h2>
+      </div>
+
+      <div class="review-target">
+        <img
+          class="review-target__image"
+          th:src="${review.album.coverImageUrl != null and !#strings.isEmpty(review.album.coverImageUrl) ? review.album.coverImageUrl : '/images/album-placeholder.svg'}"
+          th:alt="${review.album.title + ' cover'}"
+        />
+
+        <div class="review-target__body">
+          <a
+            class="review-target__title"
+            th:href="@{/albums/{id}(id=${review.album.id})}"
+            th:text="${review.album.title}"
+          ></a>
+          <a
+            class="review-target__artist"
+            th:href="@{/artists/{id}(id=${review.album.artist.id})}"
+            th:text="${review.album.artist.name}"
+          ></a>
+        </div>
+      </div>
+    </section>
 
     <form th:action="@{/reviews}" th:object="${review}" method="post">
       <input
@@ -18,6 +43,7 @@
         th:value="${_csrf.token}"
       />
 
+      <input type="hidden" th:field="*{id}" />
       <input type="hidden" th:field="*{album.id}" />
 
       <div>
@@ -35,7 +61,10 @@
         <input type="number" th:field="*{rating}" />
       </div>
 
-      <button type="submit">Save</button>
+      <button
+        type="submit"
+        th:text="${review.id == null ? 'Save' : 'Update'}"
+      ></button>
     </form>
   </body>
 </html>

@@ -3,47 +3,75 @@
   xmlns:th="http://www.thymeleaf.org"
   xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
-  <head>
-    <title>Album Details</title>
-  </head>
+  <head th:replace="~{fragments/head :: common('Album Details')}"></head>
   <body>
     <div th:replace="~{fragments/nav :: nav}"></div>
 
-    <h1 th:text="${album.title}"></h1>
-    <h3 th:text="${album.artist.name}"></h3>
+    <section class="detail-hero detail-hero--album">
+      <img
+        class="detail-hero__image"
+        th:src="${album.coverImageUrl != null and !#strings.isEmpty(album.coverImageUrl) ? album.coverImageUrl : '/images/album-placeholder.svg'}"
+        th:alt="${album.title + ' cover'}"
+      />
 
-    <p th:text="${album.description}"></p>
+      <div class="detail-hero__content">
+        <p class="eyebrow" th:text="${album.artist.genre}"></p>
+        <h1 th:text="${album.title}"></h1>
+        <h3>
+          <a
+            th:href="@{/artists/{id}(id=${album.artist.id})}"
+            th:text="${album.artist.name}"
+          ></a>
+        </h3>
+        <p th:text="${album.description}"></p>
 
-    <a
-      sec:authorize="isAuthenticated()"
-      th:href="@{/reviews/new/{id}(id=${album.id})}"
-    >
-      Add Review
-    </a>
+        <div class="detail-hero__actions">
+          <a
+            class="button-link"
+            sec:authorize="isAuthenticated()"
+            th:href="@{/reviews/new/{id}(id=${album.id})}"
+          >
+            Add Review
+          </a>
+        </div>
+      </div>
+    </section>
 
-    <h2>Reviews</h2>
+    <section class="section-card">
+      <div class="section-card__header">
+        <h2>Reviews</h2>
+      </div>
 
-    <p th:if="${#lists.isEmpty(reviews)}">No reviews yet.</p>
+      <p th:if="${#lists.isEmpty(reviews)}">No reviews yet.</p>
 
-    <div th:each="review : ${reviews}">
-      <h4 th:text="${review.title}"></h4>
-      <p th:text="${review.content}"></p>
-      <strong th:text="${review.rating} + '/100'"></strong>
-      <p th:if="${review.user != null}">
+      <div th:if="${!#lists.isEmpty(reviews)}" th:each="review : ${reviews}">
+        <h3>
+          <a
+            th:if="${review.user != null}"
+            th:href="@{/users/{id}(id=${review.user.id})}"
+            th:text="${review.user.username}"
+          ></a>
+          <span th:if="${review.user == null}">Anonymous</span>
+        </h3>
+        <strong th:text="${review.rating} + '/100'"></strong>
+        <h3 th:text="${review.title}"></h3>
+        <p th:text="${review.content}"></p>
+
         <a
-          th:href="@{/users/{id}(id=${review.user.id})}"
-          th:text="${'By ' + review.user.username}"
-        ></a>
-      </p>
+          th:if="${#authentication != null and (#authorization.expression('hasRole(''ADMIN'')') or (review.user != null and #authentication.name == review.user.username))}"
+          th:href="@{/reviews/edit/{id}(id=${review.id})}"
+        >
+          Edit
+        </a>
+        <a
+          th:if="${#authentication != null and (#authorization.expression('hasRole(''ADMIN'')') or (review.user != null and #authentication.name == review.user.username))}"
+          th:href="@{/reviews/delete/{id}(id=${review.id})}"
+        >
+          Delete
+        </a>
+      </div>
+    </section>
 
-      <a
-        sec:authorize="hasRole('ADMIN') or (review.user != null and #authentication.name == review.user.username)"
-        th:href="@{/reviews/delete/{id}(id=${review.id})}"
-      >
-        Delete
-      </a>
-    </div>
-
-    <a href="/albums">Back</a>
+    <a class="back-link" href="/albums">Back</a>
   </body>
 </html>

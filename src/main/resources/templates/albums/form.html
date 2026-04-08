@@ -3,9 +3,7 @@
   xmlns:th="http://www.thymeleaf.org"
   xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
-  <head>
-    <title>Album Form</title>
-  </head>
+  <head th:replace="~{fragments/head :: common('Album Form')}"></head>
   <body>
     <div th:replace="~{fragments/nav :: nav}"></div>
 
@@ -33,6 +31,15 @@
       <div>
         <label>Description:</label>
         <textarea th:field="*{description}"></textarea>
+      </div>
+
+      <div>
+        <label>Cover Image URL:</label>
+        <input
+          type="url"
+          th:field="*{coverImageUrl}"
+          placeholder="/images/album-ok-computer.svg or https://..."
+        />
       </div>
 
       <div>

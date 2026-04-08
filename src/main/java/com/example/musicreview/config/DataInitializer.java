@@ -58,6 +58,7 @@ public class DataInitializer {
                     artist.setName(name);
                     artist.setGenre(genre);
                     artist.setDescription(description);
+                    artist.setImageUrl(getArtistImageUrl(name));
                     return artistService.save(artist);
                 });
     }
@@ -75,9 +76,47 @@ public class DataInitializer {
         album.setTitle(title);
         album.setReleaseYear(releaseYear);
         album.setDescription(description);
+        album.setCoverImageUrl(getAlbumCoverUrl(title));
         album.setArtist(artist);
         album.setReviews(List.of());
 
         albumService.save(album);
+    }
+
+    private String getAlbumCoverUrl(String title) {
+        if ("OK Computer".equalsIgnoreCase(title)) {
+            return "/images/album-ok-computer.svg";
+        }
+        if ("In Rainbows".equalsIgnoreCase(title)) {
+            return "/images/album-in-rainbows.svg";
+        }
+        if ("Discovery".equalsIgnoreCase(title)) {
+            return "/images/album-discovery.svg";
+        }
+        if ("Random Access Memories".equalsIgnoreCase(title)) {
+            return "/images/album-random-access-memories.svg";
+        }
+        if ("Rumours".equalsIgnoreCase(title)) {
+            return "/images/album-rumours.svg";
+        }
+        if ("Tusk".equalsIgnoreCase(title)) {
+            return "/images/album-tusk.svg";
+        }
+
+        return "/images/album-placeholder.svg";
+    }
+
+    private String getArtistImageUrl(String name) {
+        if ("Radiohead".equalsIgnoreCase(name)) {
+            return "/images/artist-radiohead.svg";
+        }
+        if ("Daft Punk".equalsIgnoreCase(name)) {
+            return "/images/artist-daft-punk.svg";
+        }
+        if ("Fleetwood Mac".equalsIgnoreCase(name)) {
+            return "/images/artist-fleetwood-mac.svg";
+        }
+
+        return "/images/artist-placeholder.svg";
     }
 }

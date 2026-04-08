@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffb703"/>
+      <stop offset="50%" stop-color="#e63946"/>
+      <stop offset="100%" stop-color="#1d3557"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" fill="#101624"/>
+  <rect x="40" y="40" width="520" height="520" rx="34" fill="url(#g)" opacity="0.92"/>
+  <rect x="92" y="92" width="416" height="416" rx="24" fill="rgba(255,255,255,0.12)"/>
+  <circle cx="300" cy="300" r="132" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="10"/>
+  <circle cx="300" cy="300" r="52" fill="rgba(255,255,255,0.82)"/>
+  <text x="300" y="525" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#fff">OK COMPUTER</text>
+</svg>

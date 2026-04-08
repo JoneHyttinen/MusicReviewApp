@@ -40,8 +40,13 @@ public class ReviewService {
         return reviewRepository.findById(id).orElseThrow();
     }
 
-    public Review save(Review review) {
+    public Review create(Review review) {
         review.setCreatedAt(LocalDateTime.now());
+        return reviewRepository.save(review);
+    }
+
+    public Review update(Review review) {
+        review.setUpdatedAt(LocalDateTime.now());
         return reviewRepository.save(review);
     }
 

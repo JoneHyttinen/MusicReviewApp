@@ -3,9 +3,7 @@
   xmlns:th="http://www.thymeleaf.org"
   xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
-  <head>
-    <title>Albums</title>
-  </head>
+  <head th:replace="~{fragments/head :: common('Albums')}"></head>
   <body>
     <div th:replace="~{fragments/nav :: nav}"></div>
 
@@ -17,26 +15,51 @@
 
     <div th:each="entry : ${albumsByGenre}">
       <h2 th:text="${entry.key}"></h2>
-      <ul>
-        <li th:each="album : ${entry.value}">
-          <span th:text="${album.title}"></span> -
+      <ul class="catalog-grid">
+        <li
+          class="catalog-card catalog-card--album"
+          th:each="album : ${entry.value}"
+        >
           <a
-            th:href="@{/artists/{id}(id=${album.artist.id})}"
-            th:text="${album.artist.name}"
-          ></a>
-
-          <a th:href="@{/albums/{id}(id=${album.id})}">View</a>
-
-          <a
-            sec:authorize="hasRole('ADMIN')"
-            th:href="@{/albums/edit/{id}(id=${album.id})}"
-            >Edit</a
+            class="catalog-card__image-link"
+            th:href="@{/albums/{id}(id=${album.id})}"
           >
-          <a
-            sec:authorize="hasRole('ADMIN')"
-            th:href="@{/albums/delete/{id}(id=${album.id})}"
-            >Delete</a
-          >
+            <img
+              class="catalog-card__image"
+              th:src="${album.coverImageUrl != null and !#strings.isEmpty(album.coverImageUrl) ? album.coverImageUrl : '/images/album-placeholder.svg'}"
+              th:alt="${album.title + ' cover'}"
+            />
+          </a>
+
+          <div class="catalog-card__body">
+            <a
+              class="catalog-card__title"
+              th:href="@{/albums/{id}(id=${album.id})}"
+              th:text="${album.title}"
+            ></a>
+            <a
+              class="catalog-card__subtitle"
+              th:href="@{/artists/{id}(id=${album.artist.id})}"
+              th:text="${album.artist.name}"
+            ></a>
+            <span
+              class="catalog-card__meta"
+              th:text="${album.releaseYear}"
+            ></span>
+
+            <div class="catalog-card__actions">
+              <a
+                sec:authorize="hasRole('ADMIN')"
+                th:href="@{/albums/edit/{id}(id=${album.id})}"
+                >Edit</a
+              >
+              <a
+                sec:authorize="hasRole('ADMIN')"
+                th:href="@{/albums/delete/{id}(id=${album.id})}"
+                >Delete</a
+              >
+            </div>
+          </div>
         </li>
       </ul>
     </div>

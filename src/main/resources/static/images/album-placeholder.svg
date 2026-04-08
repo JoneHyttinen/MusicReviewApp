@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <rect width="600" height="600" fill="#111827"/>
+  <rect x="44" y="44" width="512" height="512" rx="34" fill="#1f2937"/>
+  <path d="M130 420 L280 180 L430 420 Z" fill="#38bdf8" opacity="0.7"/>
+  <circle cx="300" cy="300" r="86" fill="none" stroke="#edf3ff" stroke-width="12" opacity="0.7"/>
+  <text x="300" y="520" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#edf3ff">ALBUM ART</text>
+</svg>

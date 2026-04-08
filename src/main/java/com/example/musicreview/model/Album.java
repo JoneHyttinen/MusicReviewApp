@@ -28,6 +28,9 @@ public class Album {
     @Column(length = 2000)
     private String description;
 
+    @Column(name = "cover_image_url")
+    private String coverImageUrl;
+
     @ManyToOne
     @JoinColumn(name = "artist_id", nullable = false)
     private Artist artist;
@@ -76,6 +79,14 @@ public class Album {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getCoverImageUrl() {
+        return coverImageUrl;
+    }
+
+    public void setCoverImageUrl(String coverImageUrl) {
+        this.coverImageUrl = coverImageUrl;
     }
 
     public Artist getArtist() {

@@ -3,9 +3,7 @@
   xmlns:th="http://www.thymeleaf.org"
   xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
-  <head>
-    <title>Reviews</title>
-  </head>
+  <head th:replace="~{fragments/head :: common('Reviews')}"></head>
   <body>
     <div th:replace="~{fragments/nav :: nav}"></div>
 
@@ -14,21 +12,26 @@
     <p th:if="${#lists.isEmpty(reviews)}">No reviews yet.</p>
 
     <div th:each="review : ${reviews}">
-      <h3 th:text="${review.title}"></h3>
-      <p th:text="${review.content}"></p>
-      <p>
-        <span th:text="${review.album.title}"></span>
-        <span th:if="${review.user != null}"> by </span>
+      <h3>
         <a
           th:if="${review.user != null}"
           th:href="@{/users/{id}(id=${review.user.id})}"
           th:text="${review.user.username}"
         ></a>
-      </p>
+        <span th:if="${review.user == null}">Anonymous</span>
+      </h3>
       <strong th:text="${review.rating} + '/100'"></strong>
+      <h3 th:text="${review.title}"></h3>
+      <p th:text="${review.content}"></p>
 
       <a
-        sec:authorize="hasRole('ADMIN') or (review.user != null and #authentication.name == review.user.username)"
+        th:if="${#authentication != null and (#authorization.expression('hasRole(''ADMIN'')') or (review.user != null and #authentication.name == review.user.username))}"
+        th:href="@{/reviews/edit/{id}(id=${review.id})}"
+      >
+        Edit
+      </a>
+      <a
+        th:if="${#authentication != null and (#authorization.expression('hasRole(''ADMIN'')') or (review.user != null and #authentication.name == review.user.username))}"
         th:href="@{/reviews/delete/{id}(id=${review.id})}"
       >
         Delete

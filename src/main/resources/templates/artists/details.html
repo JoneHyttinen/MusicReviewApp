@@ -3,35 +3,69 @@
   xmlns:th="http://www.thymeleaf.org"
   xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
-  <head>
-    <title>Artist Details</title>
-  </head>
+  <head th:replace="~{fragments/head :: common('Artist Details')}"></head>
   <body>
     <div th:replace="~{fragments/nav :: nav}"></div>
 
-    <h1 th:text="${artist.name}"></h1>
-    <p>
-      Genre:
-      <strong th:text="${artist.genre}"></strong>
-    </p>
-    <p th:text="${artist.description}"></p>
+    <section class="detail-hero detail-hero--artist">
+      <img
+        class="detail-hero__image detail-hero__image--artist"
+        th:src="${artist.imageUrl != null and !#strings.isEmpty(artist.imageUrl) ? artist.imageUrl : '/images/artist-placeholder.svg'}"
+        th:alt="${artist.name + ' portrait'}"
+      />
 
-    <h2>Albums</h2>
-    <p th:if="${#lists.isEmpty(albums)}">No albums found for this artist.</p>
+      <div class="detail-hero__content">
+        <p class="eyebrow" th:text="${artist.genre}"></p>
+        <h1 th:text="${artist.name}"></h1>
+        <p th:text="${artist.description}"></p>
+      </div>
+    </section>
 
-    <ul>
-      <li th:each="album : ${albums}">
-        <a
-          th:href="@{/albums/{id}(id=${album.id})}"
-          th:text="${album.title}"
-        ></a>
-        <span th:text="${' (' + album.releaseYear + ')'}"></span>
-        <span
-          th:text="${' - Avg rating: ' + #numbers.formatDecimal(albumAverageRatings.get(album.id), 1, 2) + '/100'}"
-        ></span>
-      </li>
-    </ul>
+    <section class="section-card">
+      <div class="section-card__header">
+        <h2>Albums</h2>
+      </div>
 
-    <a href="/artists">Back</a>
+      <p th:if="${#lists.isEmpty(albums)}">No albums found for this artist.</p>
+
+      <ul
+        class="catalog-grid catalog-grid--compact"
+        th:if="${!#lists.isEmpty(albums)}"
+      >
+        <li
+          class="catalog-card catalog-card--album"
+          th:each="album : ${albums}"
+        >
+          <a
+            class="catalog-card__image-link"
+            th:href="@{/albums/{id}(id=${album.id})}"
+          >
+            <img
+              class="catalog-card__image"
+              th:src="${album.coverImageUrl != null and !#strings.isEmpty(album.coverImageUrl) ? album.coverImageUrl : '/images/album-placeholder.svg'}"
+              th:alt="${album.title + ' cover'}"
+            />
+          </a>
+
+          <div class="catalog-card__body">
+            <a
+              class="catalog-card__title"
+              th:href="@{/albums/{id}(id=${album.id})}"
+              th:text="${album.title}"
+            ></a>
+            <span
+              class="catalog-card__subtitle"
+              th:text="${album.releaseYear}"
+            ></span>
+            <span
+              class="catalog-card__meta"
+              th:text="${'Avg rating: ' + #numbers.formatDecimal(albumAverageRatings.get(album.id), 1, 2) + '/100'}"
+            ></span>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <a class="back-link" href="/artists">Back</a>
   </body>
 </html>

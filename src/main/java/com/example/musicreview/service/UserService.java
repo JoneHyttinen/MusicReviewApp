@@ -62,6 +62,9 @@ public class UserService implements UserDetailsService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.USER);
         user.setJoinDate(LocalDate.now());
+        if (user.getProfileImageUrl() == null || user.getProfileImageUrl().isBlank()) {
+            user.setProfileImageUrl("/images/user-placeholder.svg");
+        }
         return userRepository.save(user);
     }
 
@@ -76,6 +79,7 @@ public class UserService implements UserDetailsService {
         admin.setPassword(passwordEncoder.encode("admin"));
         admin.setRole(Role.ADMIN);
         admin.setJoinDate(LocalDate.now());
+        admin.setProfileImageUrl("/images/user-placeholder.svg");
         userRepository.save(admin);
     }
 

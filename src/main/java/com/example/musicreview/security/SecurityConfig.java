@@ -35,7 +35,8 @@ public class SecurityConfig {
                         throws Exception {
                 http.authenticationProvider(authenticationProvider)
                                 .authorizeHttpRequests(auth -> auth
-                                                .requestMatchers("/h2-console/**", "/login", "/register", "/error")
+                                                .requestMatchers("/css/**", "/images/**",
+                                                                "/login", "/register", "/error")
                                                 .permitAll()
                                                 .requestMatchers(HttpMethod.GET, "/", "/albums", "/albums/*",
                                                                 "/artists", "/artists/*",
@@ -47,7 +48,7 @@ public class SecurityConfig {
                                                                 "/artists/delete/**")
                                                 .hasRole("ADMIN")
                                                 .requestMatchers(HttpMethod.GET, "/reviews/new/**",
-                                                                "/reviews/delete/**")
+                                                                "/reviews/edit/**", "/reviews/delete/**")
                                                 .authenticated()
                                                 .requestMatchers(HttpMethod.POST, "/reviews").authenticated()
                                                 .requestMatchers(HttpMethod.POST, "/albums", "/artists")
@@ -58,10 +59,7 @@ public class SecurityConfig {
                                                 .defaultSuccessUrl("/albums", true)
                                                 .permitAll())
                                 .logout(Customizer.withDefaults())
-                                .csrf(csrf -> csrf
-                                                .ignoringRequestMatchers("/h2-console/**"))
-                                .headers(headers -> headers
-                                                .frameOptions(frame -> frame.disable()));
+                                .csrf(Customizer.withDefaults());
 
                 return http.build();
         }

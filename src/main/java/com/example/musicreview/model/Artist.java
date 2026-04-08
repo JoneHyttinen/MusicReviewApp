@@ -26,6 +26,9 @@ public class Artist {
     @Column(length = 2000)
     private String description;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "artist")
     private List<Album> albums;
 
@@ -69,6 +72,14 @@ public class Artist {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public List<Album> getAlbums() {

@@ -50,6 +50,19 @@ public class ReviewController {
         return "reviews/form";
     }
 
+    // EDIT FORM
+    @GetMapping("/edit/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public String showEditForm(@PathVariable Long id, Authentication authentication, Model model) {
+        var review = reviewService.findById(id);
+        if (!canManageReview(review, authentication)) {
+            return "redirect:/albums/" + review.getAlbum().getId();
+        }
+
+        model.addAttribute("review", review);
+        return "reviews/form";
+    }
+
     // SAVE
     @PostMapping
     @PreAuthorize("isAuthenticated()")
@@ -58,11 +71,25 @@ public class ReviewController {
             return "redirect:/login";
         }
 
+        if (review.getId() != null) {
+            var existing = reviewService.findById(review.getId());
+            if (!canManageReview(existing, authentication)) {
+                return "redirect:/albums/" + existing.getAlbum().getId();
+            }
+
+            existing.setTitle(review.getTitle());
+            existing.setContent(review.getContent());
+            existing.setRating(review.getRating());
+
+            reviewService.update(existing);
+            return "redirect:/albums/" + existing.getAlbum().getId();
+        }
+
         var album = albumService.findById(review.getAlbum().getId());
         review.setAlbum(album);
         review.setUser(userService.findByUsername(authentication.getName()));
 
-        reviewService.save(review);
+        reviewService.create(review);
 
         return "redirect:/albums/" + review.getAlbum().getId();
     }

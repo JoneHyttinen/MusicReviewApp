@@ -3,52 +3,99 @@
   xmlns:th="http://www.thymeleaf.org"
   xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
-  <head>
-    <title>User Profile</title>
-  </head>
+  <head th:replace="~{fragments/head :: common('User Profile')}"></head>
   <body>
     <div th:replace="~{fragments/nav :: nav}"></div>
 
-    <h1 th:text="${user.username}"></h1>
+    <section class="profile-hero">
+      <img
+        class="profile-hero__avatar"
+        th:src="${user.profileImageUrl != null and !#strings.isEmpty(user.profileImageUrl) ? user.profileImageUrl : '/images/user-placeholder.svg'}"
+        th:alt="${user.username + ' profile picture'}"
+      />
 
-    <p>
-      Joined:
-      <span th:text="${user.joinDate}"></span>
-    </p>
+      <div class="profile-hero__content">
+        <p class="eyebrow">User Profile</p>
+        <h1 th:text="${user.username}"></h1>
 
-    <p>
-      Review count:
-      <strong th:text="${reviewCount}"></strong>
-    </p>
+        <div class="profile-stats">
+          <div class="profile-stat">
+            <span class="profile-stat__label">Joined</span>
+            <strong th:text="${user.joinDate}"></strong>
+          </div>
+          <div class="profile-stat">
+            <span class="profile-stat__label">Reviews</span>
+            <strong th:text="${reviewCount}"></strong>
+          </div>
+          <div class="profile-stat">
+            <span class="profile-stat__label">Average rating</span>
+            <strong
+              th:text="${#numbers.formatDecimal(averageRating, 1, 2)} + '/100'"
+            ></strong>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    <p>
-      Average rating:
-      <strong
-        th:text="${#numbers.formatDecimal(averageRating, 1, 2)} + '/100'"
-      ></strong>
-    </p>
+    <section class="section-card">
+      <div class="section-card__header">
+        <h2>Recent Reviews</h2>
+      </div>
 
-    <h2>Recent Reviews</h2>
-
-    <p th:if="${#lists.isEmpty(recentReviews)}">
-      This user has not posted reviews yet.
-    </p>
-
-    <div th:each="review : ${recentReviews}">
-      <h3 th:text="${review.title}"></h3>
-      <p>
-        <a
-          th:href="@{/albums/{id}(id=${review.album.id})}"
-          th:text="${review.album.title}"
-        ></a>
-        <span th:text="${' - ' + review.rating + '/100'}"></span>
+      <p th:if="${#lists.isEmpty(recentReviews)}">
+        This user has not posted reviews yet.
       </p>
-      <p th:text="${review.content}"></p>
-      <small
-        th:text="${#temporals.format(review.createdAt, 'yyyy-MM-dd HH:mm')}"
-      ></small>
-    </div>
 
-    <a href="/albums">Back</a>
+      <div class="review-stack" th:if="${!#lists.isEmpty(recentReviews)}">
+        <article
+          class="profile-review-card"
+          th:each="review : ${recentReviews}"
+        >
+          <a
+            class="profile-review-card__image-link"
+            th:href="@{/albums/{id}(id=${review.album.id})}"
+          >
+            <img
+              class="profile-review-card__image"
+              th:src="${review.album.coverImageUrl != null and !#strings.isEmpty(review.album.coverImageUrl) ? review.album.coverImageUrl : '/images/album-placeholder.svg'}"
+              th:alt="${review.album.title + ' cover'}"
+            />
+          </a>
+
+          <div class="profile-review-card__body">
+            <h3 class="profile-review-card__user">
+              <a
+                th:if="${review.user != null}"
+                th:href="@{/users/{id}(id=${review.user.id})}"
+                th:text="${review.user.username}"
+              ></a>
+              <span th:if="${review.user == null}">Anonymous</span>
+            </h3>
+
+            <strong
+              class="profile-review-card__score"
+              th:text="${review.rating} + '/100'"
+            ></strong>
+            <h3
+              class="profile-review-card__title"
+              th:text="${review.title}"
+            ></h3>
+            <p th:text="${review.content}"></p>
+            <a
+              th:if="${#authentication != null and (#authorization.expression('hasRole(''ADMIN'')') or (review.user != null and #authentication.name == review.user.username))}"
+              th:href="@{/reviews/edit/{id}(id=${review.id})}"
+            >
+              Edit
+            </a>
+            <a
+              th:if="${#authentication != null and (#authorization.expression('hasRole(''ADMIN'')') or (review.user != null and #authentication.name == review.user.username))}"
+              th:href="@{/reviews/delete/{id}(id=${review.id})}"
+            >
+              Delete
+            </a>
+          </div>
+        </article>
+      </div>
+    </section>
   </body>
 </html>

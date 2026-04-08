@@ -3,9 +3,7 @@
   xmlns:th="http://www.thymeleaf.org"
   xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
-  <head>
-    <title>Artist Form</title>
-  </head>
+  <head th:replace="~{fragments/head :: common('Artist Form')}"></head>
   <body>
     <div th:replace="~{fragments/nav :: nav}"></div>
 
@@ -34,6 +32,15 @@
       <div>
         <label>Description:</label>
         <textarea th:field="*{description}"></textarea>
+      </div>
+
+      <div>
+        <label>Image URL:</label>
+        <input
+          type="url"
+          th:field="*{imageUrl}"
+          placeholder="/images/artist-radiohead.svg or https://..."
+        />
       </div>
 
       <button type="submit">Save</button>

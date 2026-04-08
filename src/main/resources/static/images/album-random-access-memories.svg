@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1f2937"/>
+      <stop offset="55%" stop-color="#e5e7eb"/>
+      <stop offset="100%" stop-color="#fbbf24"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" fill="#15171d"/>
+  <rect x="78" y="78" width="444" height="444" rx="30" fill="url(#g)"/>
+  <rect x="130" y="130" width="340" height="340" rx="22" fill="#fff" opacity="0.34"/>
+  <path d="M196 382 L300 206 L404 382 Z" fill="#111827" opacity="0.8"/>
+  <circle cx="300" cy="332" r="36" fill="#f97316" opacity="0.95"/>
+  <text x="300" y="525" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#fff">RANDOM ACCESS MEMORIES</text>
+</svg>
