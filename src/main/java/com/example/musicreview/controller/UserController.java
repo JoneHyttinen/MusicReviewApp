@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.musicreview.service.ReviewService;
 import com.example.musicreview.service.UserService;
 
 @Controller
@@ -13,9 +14,11 @@ import com.example.musicreview.service.UserService;
 public class UserController {
 
     private final UserService userService;
+    private final ReviewService reviewService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, ReviewService reviewService) {
         this.userService = userService;
+        this.reviewService = reviewService;
     }
 
     @GetMapping("/{id}")
@@ -25,6 +28,7 @@ public class UserController {
         model.addAttribute("user", user);
         model.addAttribute("reviewCount", userService.getReviewCount(user));
         model.addAttribute("averageRating", userService.getAverageRating(user));
+        model.addAttribute("recentReviews", reviewService.findRecentByUser(user));
 
         return "users/details";
     }

@@ -16,6 +16,8 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     List<Review> findByUser(User user);
 
+    List<Review> findTop5ByUserOrderByCreatedAtDesc(User user);
+
     long countByUser(User user);
 
     @Query("SELECT AVG(r.rating) FROM Review r WHERE r.user = :user")

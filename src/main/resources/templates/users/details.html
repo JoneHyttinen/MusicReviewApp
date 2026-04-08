@@ -28,6 +28,27 @@
       ></strong>
     </p>
 
+    <h2>Recent Reviews</h2>
+
+    <p th:if="${#lists.isEmpty(recentReviews)}">
+      This user has not posted reviews yet.
+    </p>
+
+    <div th:each="review : ${recentReviews}">
+      <h3 th:text="${review.title}"></h3>
+      <p>
+        <a
+          th:href="@{/albums/{id}(id=${review.album.id})}"
+          th:text="${review.album.title}"
+        ></a>
+        <span th:text="${' - ' + review.rating + '/100'}"></span>
+      </p>
+      <p th:text="${review.content}"></p>
+      <small
+        th:text="${#temporals.format(review.createdAt, 'yyyy-MM-dd HH:mm')}"
+      ></small>
+    </div>
+
     <a href="/albums">Back</a>
   </body>
 </html>

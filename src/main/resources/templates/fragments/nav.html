@@ -14,6 +14,12 @@
         <span sec:authorize="isAuthenticated()"
           >Signed in as <strong sec:authentication="name"></strong
         ></span>
+        <a
+          sec:authorize="isAuthenticated()"
+          th:if="${currentUserId != null}"
+          th:href="@{/users/{id}(id=${currentUserId})}"
+          >My Profile</a
+        >
         <form
           sec:authorize="isAuthenticated()"
           th:action="@{/logout}"

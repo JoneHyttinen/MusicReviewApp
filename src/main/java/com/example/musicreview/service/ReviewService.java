@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.musicreview.model.Album;
 import com.example.musicreview.model.Review;
+import com.example.musicreview.model.User;
 import com.example.musicreview.repository.ReviewRepository;
 
 @Service
@@ -24,6 +25,10 @@ public class ReviewService {
 
     public List<Review> findAll() {
         return reviewRepository.findAll();
+    }
+
+    public List<Review> findRecentByUser(User user) {
+        return reviewRepository.findTop5ByUserOrderByCreatedAtDesc(user);
     }
 
     public Review findById(Long id) {
