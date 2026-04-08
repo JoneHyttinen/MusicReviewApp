@@ -29,10 +29,12 @@
       <h4 th:text="${review.title}"></h4>
       <p th:text="${review.content}"></p>
       <strong th:text="${review.rating} + '/100'"></strong>
-      <p
-        th:if="${review.user != null}"
-        th:text="${'By ' + review.user.username}"
-      ></p>
+      <p th:if="${review.user != null}">
+        <a
+          th:href="@{/users/{id}(id=${review.user.id})}"
+          th:text="${'By ' + review.user.username}"
+        ></a>
+      </p>
 
       <a
         sec:authorize="hasRole('ADMIN') or (review.user != null and #authentication.name == review.user.username)"

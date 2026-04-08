@@ -1,0 +1,33 @@
+<!doctype html>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+  <head>
+    <title>User Profile</title>
+  </head>
+  <body>
+    <div th:replace="~{fragments/nav :: nav}"></div>
+
+    <h1 th:text="${user.username}"></h1>
+
+    <p>
+      Joined:
+      <span th:text="${user.joinDate}"></span>
+    </p>
+
+    <p>
+      Review count:
+      <strong th:text="${reviewCount}"></strong>
+    </p>
+
+    <p>
+      Average rating:
+      <strong
+        th:text="${#numbers.formatDecimal(averageRating, 1, 2)} + '/100'"
+      ></strong>
+    </p>
+
+    <a href="/albums">Back</a>
+  </body>
+</html>

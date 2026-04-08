@@ -12,16 +12,20 @@ import org.springframework.stereotype.Service;
 
 import com.example.musicreview.model.Role;
 import com.example.musicreview.model.User;
+import com.example.musicreview.repository.ReviewRepository;
 import com.example.musicreview.repository.UserRepository;
 
 @Service
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
+    private final ReviewRepository reviewRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, ReviewRepository reviewRepository,
+            PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.reviewRepository = reviewRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -31,6 +35,19 @@ public class UserService implements UserDetailsService {
 
     public User findByUsername(String username) {
         return userRepository.findByUsername(username).orElseThrow();
+    }
+
+    public User findById(Long id) {
+        return userRepository.findById(id).orElseThrow();
+    }
+
+    public long getReviewCount(User user) {
+        return reviewRepository.countByUser(user);
+    }
+
+    public double getAverageRating(User user) {
+        Double average = reviewRepository.findAverageRatingByUser(user);
+        return average == null ? 0.0 : average;
     }
 
     public boolean existsByUsername(String username) {
