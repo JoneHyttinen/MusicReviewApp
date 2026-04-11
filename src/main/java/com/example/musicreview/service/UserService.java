@@ -80,7 +80,7 @@ public class UserService implements UserDetailsService {
         User admin = new User();
         admin.setUsername("admin");
         admin.setEmail("admin@musicreview.local");
-        admin.setPassword(passwordEncoder.encode("admin"));
+        admin.setPassword("$2a$10$CPlgQw3vmqvlQnIA0LjElu6SKZbFSf4YE8Oj3FS5wRacvLqQXf79G");
         admin.setRole(Role.ADMIN);
         admin.setJoinDate(LocalDate.now());
         admin.setProfileImageUrl("/images/user-placeholder.svg");
