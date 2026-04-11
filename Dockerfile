@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17-jdk-focal as builder
+FROM eclipse-temurin:17-jdk-focal AS builder
 WORKDIR /opt/app
 COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
@@ -9,6 +9,8 @@ RUN ./mvnw clean install -DskipTests
 RUN find ./target -type f -name '*.jar' -exec cp {} /opt/app/app.jar \; -quit
 
 FROM eclipse-temurin:17-jre-alpine
+WORKDIR /opt/app
 COPY --from=builder /opt/app/*.jar /opt/app/
+ENV SPRING_PROFILES_ACTIVE=rahti
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "/opt/app/app.jar" ]
