@@ -3,6 +3,7 @@ package com.example.musicreview.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
@@ -34,6 +35,7 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
+    @JsonIgnore
     @NotBlank
     @Column(name = "password_hash", nullable = false)
     private String password;
@@ -160,7 +162,6 @@ public class User {
         sb.append("id=").append(id);
         sb.append(", username=").append(username);
         sb.append(", email=").append(email);
-        sb.append(", password=").append(password);
         sb.append(", bio=").append(bio);
         sb.append(", favoriteGenre=").append(favoriteGenre);
         sb.append(", profileImageUrl=").append(profileImageUrl);
