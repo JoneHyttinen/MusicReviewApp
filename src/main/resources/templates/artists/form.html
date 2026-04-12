@@ -3,11 +3,13 @@
   xmlns:th="http://www.thymeleaf.org"
   xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
-  <head th:replace="~{fragments/head :: common('Artist Form')}"></head>
+  <head th:replace="~{fragments/head :: common(#{title.artistForm})}"></head>
   <body>
     <div th:replace="~{fragments/nav :: nav}"></div>
 
-    <h1 th:text="${artist.id == null} ? 'Add Artist' : 'Edit Artist'"></h1>
+    <h1
+      th:text="${artist.id == null} ? #{button.addArtist} : #{title.editArtist}"
+    ></h1>
 
     <form th:action="@{/artists}" th:object="${artist}" method="post">
       <input
@@ -19,23 +21,23 @@
       <input type="hidden" th:field="*{id}" />
 
       <div>
-        <label>Name:</label>
+        <label th:text="#{form.name} + ':'">Name:</label>
         <input type="text" th:field="*{name}" />
         <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
       </div>
 
       <div>
-        <label>Genre:</label>
+        <label th:text="#{form.genre} + ':'">Genre:</label>
         <input type="text" th:field="*{genre}" />
       </div>
 
       <div>
-        <label>Description:</label>
+        <label th:text="#{form.description} + ':'">Description:</label>
         <textarea th:field="*{description}"></textarea>
       </div>
 
       <div>
-        <label>Image URL:</label>
+        <label th:text="#{form.imageUrl} + ':'">Image URL:</label>
         <input
           type="url"
           th:field="*{imageUrl}"
@@ -43,9 +45,9 @@
         />
       </div>
 
-      <button type="submit">Save</button>
+      <button type="submit" th:text="#{button.save}">Save</button>
     </form>
 
-    <a href="/artists">Back</a>
+    <a href="/artists" th:text="#{button.back}">Back</a>
   </body>
 </html>

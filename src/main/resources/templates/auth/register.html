@@ -1,10 +1,12 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <head th:replace="~{fragments/head :: common('Register')}"></head>
+  <head th:replace="~{fragments/head :: common(#{title.register})}"></head>
   <body class="auth-page">
     <main class="auth-card">
-      <p class="eyebrow">Join the community</p>
-      <h1>Register</h1>
+      <p class="eyebrow" th:text="#{auth.register.joinCommunity}">
+        Join the community
+      </p>
+      <h1 th:text="#{title.register}">Register</h1>
 
       <form th:action="@{/register}" th:object="${user}" method="post">
         <input
@@ -14,7 +16,7 @@
         />
 
         <div>
-          <label>Username:</label>
+          <label th:text="#{form.username} + ':'">Username:</label>
           <input type="text" th:field="*{username}" />
           <p
             class="status-message error"
@@ -24,7 +26,7 @@
         </div>
 
         <div>
-          <label>Email:</label>
+          <label th:text="#{form.email} + ':'">Email:</label>
           <input type="email" th:field="*{email}" />
           <p
             class="status-message error"
@@ -34,7 +36,7 @@
         </div>
 
         <div>
-          <label>Password:</label>
+          <label th:text="#{form.password} + ':'">Password:</label>
           <input type="password" th:field="*{password}" />
           <p
             class="status-message error"
@@ -43,13 +45,18 @@
           ></p>
         </div>
 
-        <button type="submit">Create account</button>
+        <button type="submit" th:text="#{auth.register.createAccount}">
+          Create account
+        </button>
       </form>
 
-      <a class="button-link button-link--secondary" href="/albums"
+      <a
+        class="button-link button-link--secondary"
+        href="/albums"
+        th:text="#{auth.continueNoLogin}"
         >Continue without logging in</a
       >
-      <a href="/login">Login</a>
+      <a href="/login" th:text="#{title.login}">Login</a>
     </main>
   </body>
 </html>

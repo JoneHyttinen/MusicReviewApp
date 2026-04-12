@@ -6,19 +6,47 @@
   <body>
     <div th:fragment="nav" class="site-nav">
       <nav>
-        <a href="/albums">Albums</a>
-        <a href="/artists">Artists</a>
-        <a sec:authorize="isAnonymous()" href="/login">Login</a>
-        <a sec:authorize="isAnonymous()" href="/register">Register</a>
+        <a href="/albums" th:text="#{albums.title}">Albums</a>
+        <a href="/artists" th:text="#{artists.title}">Artists</a>
+        <a sec:authorize="isAnonymous()" href="/login" th:text="#{nav.login}"
+          >Login</a
+        >
+        <a
+          sec:authorize="isAnonymous()"
+          href="/register"
+          th:text="#{nav.register}"
+          >Register</a
+        >
         <span sec:authorize="isAuthenticated()"
-          >Signed in as <strong sec:authentication="name"></strong
+          ><span th:text="#{nav.signedInAs}">Signed in as</span>
+          <strong sec:authentication="name"></strong
         ></span>
         <a
           sec:authorize="isAuthenticated()"
           th:if="${currentUserId != null}"
           th:href="@{/users/{id}(id=${currentUserId})}"
+          th:text="#{nav.myProfile}"
           >My Profile</a
         >
+        <form method="get" style="display: inline">
+          <label for="lang" th:text="#{nav.language}">Language</label>
+          <select id="lang" name="lang" onchange="this.form.submit()">
+            <option
+              value="en"
+              th:selected="${#locale.language == 'en'}"
+              th:text="#{lang.english}"
+            >
+              English
+            </option>
+            <option
+              value="fi"
+              th:selected="${#locale.language == 'fi'}"
+              th:text="#{lang.finnish}"
+            >
+              Suomi
+            </option>
+          </select>
+        </form>
         <form
           sec:authorize="isAuthenticated()"
           th:action="@{/logout}"
@@ -30,7 +58,7 @@
             th:name="${_csrf.parameterName}"
             th:value="${_csrf.token}"
           />
-          <button type="submit">Logout</button>
+          <button type="submit" th:text="#{nav.logout}">Logout</button>
         </form>
       </nav>
     </div>

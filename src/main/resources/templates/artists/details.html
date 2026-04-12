@@ -3,7 +3,7 @@
   xmlns:th="http://www.thymeleaf.org"
   xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
-  <head th:replace="~{fragments/head :: common('Artist Details')}"></head>
+  <head th:replace="~{fragments/head :: common(#{title.artistDetails})}"></head>
   <body>
     <div th:replace="~{fragments/nav :: nav}"></div>
 
@@ -23,10 +23,15 @@
 
     <section class="section-card">
       <div class="section-card__header">
-        <h2>Albums</h2>
+        <h2 th:text="#{albums.title}">Albums</h2>
       </div>
 
-      <p th:if="${#lists.isEmpty(albums)}">No albums found for this artist.</p>
+      <p
+        th:if="${#lists.isEmpty(albums)}"
+        th:text="#{message.noAlbumsForArtist}"
+      >
+        No albums found for this artist.
+      </p>
 
       <ul
         class="catalog-grid catalog-grid--compact"
@@ -59,13 +64,13 @@
             ></span>
             <span
               class="catalog-card__meta"
-              th:text="${'Avg rating: ' + #numbers.formatDecimal(albumAverageRatings.get(album.id), 1, 2) + '/100'}"
+              th:text="${#messages.msg('label.averageRating') + ': ' + #numbers.formatDecimal(albumAverageRatings.get(album.id), 1, 2) + '/100'}"
             ></span>
           </div>
         </li>
       </ul>
     </section>
 
-    <a class="back-link" href="/artists">Back</a>
+    <a class="back-link" href="/artists" th:text="#{button.back}">Back</a>
   </body>
 </html>

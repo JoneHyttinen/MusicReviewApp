@@ -3,25 +3,35 @@
   xmlns:th="http://www.thymeleaf.org"
   xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
-  <head th:replace="~{fragments/head :: common('Artists')}"></head>
+  <head th:replace="~{fragments/head :: common(#{artists.title})}"></head>
   <body>
     <div th:replace="~{fragments/nav :: nav}"></div>
 
-    <h1>Artists</h1>
+    <h1 th:text="#{artists.title}">Artists</h1>
 
-    <a sec:authorize="hasRole('ADMIN')" href="/artists/new">Add Artist</a>
+    <a
+      sec:authorize="hasRole('ADMIN')"
+      href="/artists/new"
+      th:text="#{button.addArtist}"
+      >Add Artist</a
+    >
 
     <form method="get" action="/artists">
       <input
         type="text"
         name="keyword"
-        placeholder="Search..."
+        th:placeholder="#{button.search} + '...'"
         th:value="${keyword}"
       />
-      <button type="submit">Search</button>
+      <button type="submit" th:text="#{button.search}">Search</button>
     </form>
 
-    <p th:if="${#maps.isEmpty(artistsByGenre)}">No artists found.</p>
+    <p
+      th:if="${#maps.isEmpty(artistsByGenre)}"
+      th:text="#{message.noArtistsFound}"
+    >
+      No artists found.
+    </p>
 
     <div th:each="entry : ${artistsByGenre}">
       <h2 th:text="${entry.key}"></h2>
@@ -56,11 +66,13 @@
               <a
                 sec:authorize="hasRole('ADMIN')"
                 th:href="@{/artists/edit/{id}(id=${artist.id})}"
+                th:text="#{button.edit}"
                 >Edit</a
               >
               <a
                 sec:authorize="hasRole('ADMIN')"
                 th:href="@{/artists/delete/{id}(id=${artist.id})}"
+                th:text="#{button.delete}"
                 >Delete</a
               >
             </div>

@@ -1,19 +1,23 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <head th:replace="~{fragments/head :: common('Login')}"></head>
+  <head th:replace="~{fragments/head :: common(#{title.login})}"></head>
   <body class="auth-page">
     <main class="auth-card">
-      <p class="eyebrow">Music Review</p>
-      <h1>Login</h1>
+      <p class="eyebrow" th:text="#{title.appName}">Music Review</p>
+      <h1 th:text="#{title.login}">Login</h1>
 
       <p class="status-message" th:if="${param.registered}">
-        Registration successful. You can log in now.
+        <span th:text="#{auth.login.successRegistered}"
+          >Registration successful. You can log in now.</span
+        >
       </p>
       <p class="status-message error" th:if="${param.error}">
-        Invalid username or password.
+        <span th:text="#{auth.login.errorInvalid}"
+          >Invalid username or password.</span
+        >
       </p>
       <p class="status-message" th:if="${param.logout}">
-        You have been logged out.
+        <span th:text="#{auth.login.loggedOut}">You have been logged out.</span>
       </p>
 
       <form th:action="@{/login}" method="post">
@@ -24,22 +28,25 @@
         />
 
         <div>
-          <label>Username:</label>
+          <label th:text="#{form.username} + ':'">Username:</label>
           <input type="text" name="username" />
         </div>
 
         <div>
-          <label>Password:</label>
+          <label th:text="#{form.password} + ':'">Password:</label>
           <input type="password" name="password" />
         </div>
 
-        <button type="submit">Login</button>
+        <button type="submit" th:text="#{title.login}">Login</button>
       </form>
 
-      <a class="button-link button-link--secondary" href="/albums"
+      <a
+        class="button-link button-link--secondary"
+        href="/albums"
+        th:text="#{auth.continueGuest}"
         >Continue as guest</a
       >
-      <a href="/register">Register</a>
+      <a href="/register" th:text="#{title.register}">Register</a>
     </main>
   </body>
 </html>

@@ -3,15 +3,25 @@
   xmlns:th="http://www.thymeleaf.org"
   xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
-  <head th:replace="~{fragments/head :: common('Albums')}"></head>
+  <head th:replace="~{fragments/head :: common(#{albums.title})}"></head>
   <body>
     <div th:replace="~{fragments/nav :: nav}"></div>
 
-    <h1>Albums</h1>
+    <h1 th:text="#{albums.title}">Albums</h1>
 
-    <a sec:authorize="hasRole('ADMIN')" href="/albums/new">Add Album</a>
+    <a
+      sec:authorize="hasRole('ADMIN')"
+      href="/albums/new"
+      th:text="#{button.addAlbum}"
+      >Add Album</a
+    >
 
-    <p th:if="${#maps.isEmpty(albumsByGenre)}">No albums found.</p>
+    <p
+      th:if="${#maps.isEmpty(albumsByGenre)}"
+      th:text="#{message.noAlbumsFound}"
+    >
+      No albums found.
+    </p>
 
     <div th:each="entry : ${albumsByGenre}">
       <h2 th:text="${entry.key}"></h2>
@@ -44,7 +54,7 @@
             ></a>
             <span
               class="catalog-card__meta"
-              th:text="${album.genre != null and !#strings.isEmpty(album.genre) ? album.genre : 'Unknown'}"
+              th:text="${album.genre != null and !#strings.isEmpty(album.genre) ? album.genre : #messages.msg('label.unknown')}"
             ></span>
             <span
               class="catalog-card__meta"
@@ -55,11 +65,13 @@
               <a
                 sec:authorize="hasRole('ADMIN')"
                 th:href="@{/albums/edit/{id}(id=${album.id})}"
+                th:text="#{button.edit}"
                 >Edit</a
               >
               <a
                 sec:authorize="hasRole('ADMIN')"
                 th:href="@{/albums/delete/{id}(id=${album.id})}"
+                th:text="#{button.delete}"
                 >Delete</a
               >
             </div>

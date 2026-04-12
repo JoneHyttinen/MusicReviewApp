@@ -3,11 +3,11 @@
   xmlns:th="http://www.thymeleaf.org"
   xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
-  <head th:replace="~{fragments/head :: common('Album Form')}"></head>
+  <head th:replace="~{fragments/head :: common(#{title.albumForm})}"></head>
   <body>
     <div th:replace="~{fragments/nav :: nav}"></div>
 
-    <h1>Add / Edit Album</h1>
+    <h1 th:text="#{title.albumForm}">Add / Edit Album</h1>
 
     <form th:action="@{/albums}" th:object="${album}" method="post">
       <input
@@ -19,17 +19,17 @@
       <input type="hidden" th:field="*{id}" />
 
       <div>
-        <label>Title:</label>
+        <label th:text="#{form.title} + ':'">Title:</label>
         <input type="text" th:field="*{title}" />
       </div>
 
       <div>
-        <label>Release Year:</label>
+        <label th:text="#{form.releaseYear} + ':'">Release Year:</label>
         <input type="number" th:field="*{releaseYear}" />
       </div>
 
       <div>
-        <label>Genre:</label>
+        <label th:text="#{form.genre} + ':'">Genre:</label>
         <input
           type="text"
           th:field="*{genre}"
@@ -38,12 +38,12 @@
       </div>
 
       <div>
-        <label>Description:</label>
+        <label th:text="#{form.description} + ':'">Description:</label>
         <textarea th:field="*{description}"></textarea>
       </div>
 
       <div>
-        <label>Cover Image URL:</label>
+        <label th:text="#{form.coverImageUrl} + ':'">Cover Image URL:</label>
         <input
           type="url"
           th:field="*{coverImageUrl}"
@@ -52,7 +52,7 @@
       </div>
 
       <div>
-        <label>Artist:</label>
+        <label th:text="#{form.artist} + ':'">Artist:</label>
         <select th:field="*{artist.id}">
           <option
             th:each="artist : ${artists}"
@@ -62,9 +62,9 @@
         </select>
       </div>
 
-      <button type="submit">Save</button>
+      <button type="submit" th:text="#{button.save}">Save</button>
     </form>
 
-    <a href="/albums">Back</a>
+    <a href="/albums" th:text="#{button.back}">Back</a>
   </body>
 </html>

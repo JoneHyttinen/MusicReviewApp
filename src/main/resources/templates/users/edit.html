@@ -3,13 +3,13 @@
   xmlns:th="http://www.thymeleaf.org"
   xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
-  <head th:replace="~{fragments/head :: common('Edit Profile')}"></head>
+  <head th:replace="~{fragments/head :: common(#{title.editProfile})}"></head>
   <body>
     <div th:replace="~{fragments/nav :: nav}"></div>
 
     <section class="form-section">
       <div class="form-container">
-        <h1>Edit Profile</h1>
+        <h1 th:text="#{title.editProfile}">Edit Profile</h1>
 
         <form
           th:action="@{/users/{id}(id=${user.id})}"
@@ -18,11 +18,16 @@
           enctype="multipart/form-data"
         >
           <p th:if="${param.uploadError}" class="form-error-message">
-            Image upload failed. Please use a jpg, jpeg, png, gif, or webp file.
+            <span th:text="#{message.imageUploadFailed}"
+              >Image upload failed. Please use a jpg, jpeg, png, gif, or webp
+              file.</span
+            >
           </p>
 
           <div class="form-group">
-            <label for="profileImage">Profile Picture</label>
+            <label for="profileImage" th:text="#{form.profilePicture}"
+              >Profile Picture</label
+            >
             <input
               type="file"
               id="profileImage"
@@ -32,7 +37,7 @@
           </div>
 
           <div class="form-group">
-            <label for="bio">Bio</label>
+            <label for="bio" th:text="#{form.bio}">Bio</label>
             <textarea
               id="bio"
               name="bio"
@@ -43,7 +48,9 @@
           </div>
 
           <div class="form-group">
-            <label for="favoriteGenre">Favorite Genre</label>
+            <label for="favoriteGenre" th:text="#{form.favoriteGenre}"
+              >Favorite Genre</label
+            >
             <input
               type="text"
               id="favoriteGenre"
@@ -54,12 +61,18 @@
           </div>
 
           <div class="form-actions">
-            <button type="submit" class="button-link">Save changes</button>
+            <button
+              type="submit"
+              class="button-link"
+              th:text="#{button.saveChanges}"
+            >
+              Save changes
+            </button>
             <a
               th:href="@{/users/{id}(id=${user.id})}"
               class="button-link button-link--secondary"
             >
-              Cancel
+              <span th:text="#{button.cancel}">Cancel</span>
             </a>
           </div>
         </form>

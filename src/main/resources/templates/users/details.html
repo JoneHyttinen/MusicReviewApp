@@ -3,7 +3,7 @@
   xmlns:th="http://www.thymeleaf.org"
   xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
-  <head th:replace="~{fragments/head :: common('User Profile')}"></head>
+  <head th:replace="~{fragments/head :: common(#{title.userProfile})}"></head>
   <body>
     <div th:replace="~{fragments/nav :: nav}"></div>
 
@@ -15,20 +15,26 @@
       />
 
       <div class="profile-hero__content">
-        <p class="eyebrow">User Profile</p>
+        <p class="eyebrow" th:text="#{title.userProfile}">User Profile</p>
         <h1 th:text="${user.username}"></h1>
 
         <div class="profile-stats">
           <div class="profile-stat">
-            <span class="profile-stat__label">Joined</span>
+            <span class="profile-stat__label" th:text="#{label.joined}"
+              >Joined</span
+            >
             <strong th:text="${user.joinDate}"></strong>
           </div>
           <div class="profile-stat">
-            <span class="profile-stat__label">Reviews</span>
+            <span class="profile-stat__label" th:text="#{reviews.title}"
+              >Reviews</span
+            >
             <strong th:text="${reviewCount}"></strong>
           </div>
           <div class="profile-stat">
-            <span class="profile-stat__label">Average rating</span>
+            <span class="profile-stat__label" th:text="#{label.averageRating}"
+              >Average rating</span
+            >
             <strong
               th:text="${#numbers.formatDecimal(averageRating, 1, 2)} + '/100'"
             ></strong>
@@ -47,7 +53,8 @@
           class="profile-genre"
         >
           <span
-            >Favorite Genre: <strong th:text="${user.favoriteGenre}"></strong
+            ><span th:text="#{label.favoriteGenre}">Favorite Genre</span>:
+            <strong th:text="${user.favoriteGenre}"></strong
           ></span>
         </div>
 
@@ -58,7 +65,7 @@
             class="button-link"
             th:href="@{/users/{id}/edit(id=${user.id})}"
           >
-            Edit Profile
+            <span th:text="#{title.editProfile}">Edit Profile</span>
           </a>
         </div>
       </div>
@@ -66,11 +73,13 @@
 
     <section class="section-card">
       <div class="section-card__header">
-        <h2>Recent Reviews</h2>
+        <h2 th:text="#{label.recentReviews}">Recent Reviews</h2>
       </div>
 
       <p th:if="${#lists.isEmpty(recentReviews)}">
-        This user has not posted reviews yet.
+        <span th:text="#{message.userNoReviews}"
+          >This user has not posted reviews yet.</span
+        >
       </p>
 
       <div class="review-stack" th:if="${!#lists.isEmpty(recentReviews)}">
@@ -96,7 +105,9 @@
                 th:href="@{/users/{id}(id=${review.user.id})}"
                 th:text="${review.user.username}"
               ></a>
-              <span th:if="${review.user == null}">Anonymous</span>
+              <span th:if="${review.user == null}" th:text="#{label.anonymous}"
+                >Anonymous</span
+              >
             </h3>
 
             <strong
@@ -111,12 +122,14 @@
             <a
               th:if="${#authentication != null and (#authorization.expression('hasRole(''ADMIN'')') or (review.user != null and #authentication.name == review.user.username))}"
               th:href="@{/reviews/edit/{id}(id=${review.id})}"
+              th:text="#{button.edit}"
             >
               Edit
             </a>
             <a
               th:if="${#authentication != null and (#authorization.expression('hasRole(''ADMIN'')') or (review.user != null and #authentication.name == review.user.username))}"
               th:href="@{/reviews/delete/{id}(id=${review.id})}"
+              th:text="#{button.delete}"
             >
               Delete
             </a>
