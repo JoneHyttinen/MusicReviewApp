@@ -25,6 +25,8 @@ public class Album {
     @Column(nullable = false)
     private String title;
 
+    private String genre;
+
     private int releaseYear;
 
     @Column(length = 2000)
@@ -44,8 +46,10 @@ public class Album {
     public Album() {
     }
 
-    public Album(@NotBlank String title, int releaseYear, String description, Artist artist, List<Review> reviews) {
+    public Album(@NotBlank String title, String genre, int releaseYear, String description, Artist artist,
+            List<Review> reviews) {
         this.title = title;
+        this.genre = genre;
         this.releaseYear = releaseYear;
         this.description = description;
         this.artist = artist;
@@ -66,6 +70,14 @@ public class Album {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 
     public int getReleaseYear() {

@@ -25,7 +25,7 @@ public class AlbumService {
     public List<Album> findAllSortedByGenre() {
         return albumRepository.findAll().stream()
                 .sorted(Comparator
-                        .comparing((Album album) -> album.getArtist() == null ? null : album.getArtist().getGenre(),
+                        .comparing(Album::getGenre,
                                 Comparator.nullsLast(String.CASE_INSENSITIVE_ORDER))
                         .thenComparing(album -> album.getArtist() == null ? null : album.getArtist().getName(),
                                 Comparator.nullsLast(String.CASE_INSENSITIVE_ORDER))

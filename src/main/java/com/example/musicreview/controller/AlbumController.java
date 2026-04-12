@@ -106,7 +106,7 @@ public class AlbumController {
     private Map<String, List<Album>> groupAlbumsByGenre(List<Album> albums) {
         Map<String, List<Album>> albumsByGenre = new LinkedHashMap<>();
         for (Album album : albums) {
-            String genre = normalizeGenre(album.getArtist() == null ? null : album.getArtist().getGenre());
+            String genre = normalizeGenre(album.getGenre());
             albumsByGenre.computeIfAbsent(genre, ignored -> new ArrayList<>()).add(album);
         }
 

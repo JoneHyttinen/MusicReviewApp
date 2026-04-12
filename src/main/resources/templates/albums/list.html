@@ -44,6 +44,10 @@
             ></a>
             <span
               class="catalog-card__meta"
+              th:text="${album.genre != null and !#strings.isEmpty(album.genre) ? album.genre : 'Unknown'}"
+            ></span>
+            <span
+              class="catalog-card__meta"
               th:text="${album.releaseYear}"
             ></span>
 

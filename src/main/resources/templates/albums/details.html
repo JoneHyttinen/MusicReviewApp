@@ -15,7 +15,10 @@
       />
 
       <div class="detail-hero__content">
-        <p class="eyebrow" th:text="${album.artist.genre}"></p>
+        <p
+          class="eyebrow"
+          th:text="${album.genre != null and !#strings.isEmpty(album.genre) ? album.genre : 'Unknown'}"
+        ></p>
         <h1 th:text="${album.title}"></h1>
         <h3>
           <a
