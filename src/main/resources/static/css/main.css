@@ -555,6 +555,7 @@ body > a {
 .catalog-card {
   display: flex;
   flex-direction: column;
+  align-items: stretch;
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: 1.25rem;
@@ -584,8 +585,10 @@ body > a {
 .catalog-card__body {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 0.45rem;
   padding: 1rem;
+  text-align: left;
 }
 
 .catalog-card__title {
@@ -608,6 +611,7 @@ body > a {
 .catalog-card__actions {
   display: flex;
   flex-wrap: wrap;
+  justify-content: flex-start;
   gap: 0.55rem;
   margin-top: 0.35rem;
 }
