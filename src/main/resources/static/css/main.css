@@ -415,6 +415,15 @@ body > a {
   margin-bottom: 1.5rem;
 }
 
+.form-error-message {
+  margin: 0 0 1rem;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid rgba(251, 113, 133, 0.35);
+  border-radius: 0.9rem;
+  background: rgba(251, 113, 133, 0.1);
+  color: #ffd0d8;
+}
+
 .form-group {
   display: grid;
   gap: 0.45rem;

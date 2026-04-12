@@ -15,7 +15,22 @@
           th:action="@{/users/{id}(id=${user.id})}"
           th:object="${user}"
           method="POST"
+          enctype="multipart/form-data"
         >
+          <p th:if="${param.uploadError}" class="form-error-message">
+            Image upload failed. Please use a jpg, jpeg, png, gif, or webp file.
+          </p>
+
+          <div class="form-group">
+            <label for="profileImage">Profile Picture</label>
+            <input
+              type="file"
+              id="profileImage"
+              name="profileImage"
+              accept="image/png,image/jpeg,image/jpg,image/gif,image/webp"
+            />
+          </div>
+
           <div class="form-group">
             <label for="bio">Bio</label>
             <textarea

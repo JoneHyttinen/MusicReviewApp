@@ -1,5 +1,7 @@
 package com.example.musicreview.controller;
 
+import java.io.IOException;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,8 +10,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.musicreview.model.User;
+import com.example.musicreview.service.ProfileImageStorageService;
 import com.example.musicreview.service.ReviewService;
 import com.example.musicreview.service.UserService;
 
@@ -19,10 +24,13 @@ public class UserController {
 
     private final UserService userService;
     private final ReviewService reviewService;
+    private final ProfileImageStorageService profileImageStorageService;
 
-    public UserController(UserService userService, ReviewService reviewService) {
+    public UserController(UserService userService, ReviewService reviewService,
+            ProfileImageStorageService profileImageStorageService) {
         this.userService = userService;
         this.reviewService = reviewService;
+        this.profileImageStorageService = profileImageStorageService;
     }
 
     @GetMapping("/{id}")
@@ -51,6 +59,7 @@ public class UserController {
 
     @PostMapping("/{id}")
     public String updateProfile(@PathVariable Long id, @ModelAttribute User updatedUser,
+            @RequestParam(value = "profileImage", required = false) MultipartFile profileImage,
             Authentication authentication) {
         var user = userService.findById(id);
 
@@ -60,6 +69,16 @@ public class UserController {
 
         user.setBio(updatedUser.getBio());
         user.setFavoriteGenre(updatedUser.getFavoriteGenre());
+
+        try {
+            String profileImageUrl = profileImageStorageService.store(profileImage);
+            if (profileImageUrl != null) {
+                user.setProfileImageUrl(profileImageUrl);
+            }
+        } catch (IllegalArgumentException | IOException ex) {
+            return "redirect:/users/" + id + "/edit?uploadError";
+        }
+
         userService.save(user);
 
         return "redirect:/users/" + id;
