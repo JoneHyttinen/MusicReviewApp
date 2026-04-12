@@ -18,6 +18,16 @@
         <p class="eyebrow" th:text="${artist.genre}"></p>
         <h1 th:text="${artist.name}"></h1>
         <p th:text="${artist.description}"></p>
+        <p
+          class="detail-hero__rating"
+          th:if="${artistAverageRating != null}"
+          th:text="${#messages.msg('label.averageRating') + ': ' + #numbers.formatDecimal(artistAverageRating, 1, 2) + '/100'}"
+        ></p>
+        <p
+          class="detail-hero__rating"
+          th:if="${artistAverageRating == null}"
+          th:text="${#messages.msg('label.averageRating') + ': ' + #messages.msg('label.unknown')}"
+        ></p>
       </div>
     </section>
 
@@ -64,7 +74,13 @@
             ></span>
             <span
               class="catalog-card__meta"
+              th:if="${albumAverageRatings.get(album.id) != null}"
               th:text="${#messages.msg('label.averageRating') + ': ' + #numbers.formatDecimal(albumAverageRatings.get(album.id), 1, 2) + '/100'}"
+            ></span>
+            <span
+              class="catalog-card__meta"
+              th:if="${albumAverageRatings.get(album.id) == null}"
+              th:text="${#messages.msg('label.averageRating') + ': ' + #messages.msg('label.unknown')}"
             ></span>
           </div>
         </li>

@@ -27,6 +27,16 @@
           ></a>
         </h3>
         <p th:text="${album.description}"></p>
+        <p
+          class="detail-hero__rating"
+          th:if="${averageRating != null}"
+          th:text="${#messages.msg('label.averageRating') + ': ' + #numbers.formatDecimal(averageRating, 1, 2) + '/100'}"
+        ></p>
+        <p
+          class="detail-hero__rating"
+          th:if="${averageRating == null}"
+          th:text="${#messages.msg('label.averageRating') + ': ' + #messages.msg('label.unknown')}"
+        ></p>
 
         <div class="detail-hero__actions">
           <a

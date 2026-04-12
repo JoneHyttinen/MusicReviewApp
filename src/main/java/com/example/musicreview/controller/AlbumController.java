@@ -19,6 +19,7 @@ import com.example.musicreview.model.Album;
 import com.example.musicreview.model.Artist;
 import com.example.musicreview.service.AlbumService;
 import com.example.musicreview.service.ArtistService;
+import com.example.musicreview.service.ReviewService;
 
 import jakarta.validation.Valid;
 
@@ -28,10 +29,12 @@ public class AlbumController {
 
     private final AlbumService albumService;
     private final ArtistService artistService;
+    private final ReviewService reviewService;
 
-    public AlbumController(AlbumService albumService, ArtistService artistService) {
+    public AlbumController(AlbumService albumService, ArtistService artistService, ReviewService reviewService) {
         this.albumService = albumService;
         this.artistService = artistService;
+        this.reviewService = reviewService;
     }
 
     // LIST
@@ -96,9 +99,12 @@ public class AlbumController {
     @GetMapping("/{id}")
     public String showAlbumDetails(@PathVariable Long id, Model model) {
         var album = albumService.findById(id);
+        var reviews = reviewService.findByAlbum(album);
+        var averageRating = reviews.isEmpty() ? null : reviewService.getAverageRatingForAlbum(album);
 
         model.addAttribute("album", album);
-        model.addAttribute("reviews", album.getReviews());
+        model.addAttribute("reviews", reviews);
+        model.addAttribute("averageRating", averageRating);
 
         return "albums/details";
     }

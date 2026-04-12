@@ -14,6 +14,8 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     List<Review> findByAlbum(Album album);
 
+    long countByAlbum(Album album);
+
     List<Review> findByUser(User user);
 
     List<Review> findTop5ByUserOrderByCreatedAtDesc(User user);

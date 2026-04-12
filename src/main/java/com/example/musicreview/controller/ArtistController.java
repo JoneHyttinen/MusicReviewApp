@@ -61,12 +61,20 @@ public class ArtistController {
 
         Map<Long, Double> albumAverageRatings = new LinkedHashMap<>();
         for (var album : albums) {
+            if (reviewService.getReviewCountForAlbum(album) == 0) {
+                albumAverageRatings.put(album.getId(), null);
+                continue;
+            }
+
             albumAverageRatings.put(album.getId(), reviewService.getAverageRatingForAlbum(album));
         }
+
+        Double artistAverageRating = reviewService.getAverageRatingForAlbums(albums);
 
         model.addAttribute("artist", artist);
         model.addAttribute("albums", albums);
         model.addAttribute("albumAverageRatings", albumAverageRatings);
+        model.addAttribute("artistAverageRating", artistAverageRating);
         return "artists/details";
     }
 

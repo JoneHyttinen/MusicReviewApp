@@ -36,6 +36,30 @@ public class ReviewService {
         return average == null ? 0.0 : average;
     }
 
+    public long getReviewCountForAlbum(Album album) {
+        return reviewRepository.countByAlbum(album);
+    }
+
+    public Double getAverageRatingForAlbums(List<Album> albums) {
+        double sum = 0.0;
+        long reviewedAlbumCount = 0;
+
+        for (Album album : albums) {
+            if (getReviewCountForAlbum(album) == 0) {
+                continue;
+            }
+
+            sum += getAverageRatingForAlbum(album);
+            reviewedAlbumCount++;
+        }
+
+        if (reviewedAlbumCount == 0) {
+            return null;
+        }
+
+        return sum / reviewedAlbumCount;
+    }
+
     public Review findById(Long id) {
         return reviewRepository.findById(id).orElseThrow();
     }
