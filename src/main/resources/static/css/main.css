@@ -158,6 +158,90 @@ a:hover {
   margin: 0;
 }
 
+.site-nav__desktop {
+  display: block;
+}
+
+.site-nav__mobile {
+  display: none;
+}
+
+.site-nav__brand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 0.78rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  font-family: "Space Grotesk", "Manrope", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.mobile-nav {
+  position: relative;
+}
+
+.mobile-nav summary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 5.5rem;
+  padding: 0.55rem 0.82rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.mobile-nav summary::-webkit-details-marker {
+  display: none;
+}
+
+.mobile-nav__panel {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.5rem);
+  width: min(90vw, 20rem);
+  display: grid;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  background: rgba(7, 13, 24, 0.96);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(18px);
+}
+
+.mobile-nav__panel .site-nav__link,
+.mobile-nav__panel button {
+  justify-content: flex-start;
+  width: 100%;
+  border-radius: 0.8rem;
+  padding: 0.62rem 0.72rem;
+}
+
+.mobile-nav__panel .site-nav__identity {
+  display: block;
+  padding: 0.35rem 0.4rem;
+}
+
+.mobile-nav__panel .site-nav__lang-form,
+.mobile-nav__panel .site-nav__logout-form {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.mobile-nav__panel .site-nav__lang-select {
+  width: 100%;
+  min-width: 0;
+  border-radius: 0.8rem;
+}
+
 .site-nav__identity {
   display: inline-flex;
   gap: 0.35rem;
@@ -932,29 +1016,38 @@ p[th\:errors] {
   .site-nav {
     top: 0.45rem;
     margin-bottom: 1rem;
-    padding: 0.7rem;
+    padding: 0.6rem 0.65rem;
     border-radius: 1rem;
   }
 
-  .site-nav nav {
-    flex-wrap: nowrap;
+  .site-nav__desktop {
+    display: none;
+  }
+
+  .site-nav__mobile {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .mobile-nav summary {
+    min-width: 4.9rem;
+    padding: 0.5rem 0.72rem;
+    font-size: 0.9rem;
+  }
+
+  .mobile-nav__panel {
+    width: min(89vw, 19rem);
     gap: 0.45rem;
-    overflow-x: auto;
-    padding-bottom: 0.15rem;
-    scrollbar-width: thin;
+    padding: 0.65rem;
   }
 
-  .site-nav a,
-  .site-nav button,
-  .site-nav select {
-    flex: 0 0 auto;
-    width: auto;
-    padding: 0.58rem 0.78rem;
-    font-size: 0.92rem;
-  }
-
-  .site-nav__identity {
-    padding-left: 0.1rem;
+  .mobile-nav__panel .site-nav__link,
+  .mobile-nav__panel .site-nav__identity,
+  .mobile-nav__panel button,
+  .mobile-nav__panel select {
+    font-size: 0.9rem;
   }
 
   body > form,

@@ -5,79 +5,163 @@
 >
   <body>
     <div th:fragment="nav" class="site-nav">
-      <nav>
-        <a class="site-nav__link" href="/albums" th:text="#{albums.title}"
+      <div class="site-nav__desktop">
+        <nav>
+          <a class="site-nav__link" href="/albums" th:text="#{albums.title}"
+            >Albums</a
+          >
+          <a class="site-nav__link" href="/artists" th:text="#{artists.title}"
+            >Artists</a
+          >
+          <a
+            class="site-nav__link"
+            sec:authorize="isAnonymous()"
+            href="/login"
+            th:text="#{nav.login}"
+            >Login</a
+          >
+          <a
+            class="site-nav__link"
+            sec:authorize="isAnonymous()"
+            href="/register"
+            th:text="#{nav.register}"
+            >Register</a
+          >
+          <span class="site-nav__identity" sec:authorize="isAuthenticated()"
+            ><span th:text="#{nav.signedInAs}">Signed in as</span>
+            <strong sec:authentication="name"></strong
+          ></span>
+          <a
+            class="site-nav__link"
+            sec:authorize="isAuthenticated()"
+            th:if="${currentUserId != null}"
+            th:href="@{/users/{id}(id=${currentUserId})}"
+            th:text="#{nav.myProfile}"
+            >My Profile</a
+          >
+          <form class="site-nav__lang-form" method="get">
+            <label class="visually-hidden" for="lang" th:text="#{nav.language}"
+              >Language</label
+            >
+            <select
+              class="site-nav__lang-select"
+              id="lang"
+              name="lang"
+              onchange="this.form.submit()"
+            >
+              <option
+                value="en"
+                th:selected="${#locale.language == 'en'}"
+                th:text="#{lang.english}"
+              >
+                English
+              </option>
+              <option
+                value="fi"
+                th:selected="${#locale.language == 'fi'}"
+                th:text="#{lang.finnish}"
+              >
+                Suomi
+              </option>
+            </select>
+          </form>
+          <form
+            class="site-nav__logout-form"
+            sec:authorize="isAuthenticated()"
+            th:action="@{/logout}"
+            method="post"
+          >
+            <input
+              type="hidden"
+              th:name="${_csrf.parameterName}"
+              th:value="${_csrf.token}"
+            />
+            <button type="submit" th:text="#{nav.logout}">Logout</button>
+          </form>
+        </nav>
+      </div>
+
+      <div class="site-nav__mobile">
+        <a class="site-nav__brand" href="/albums" th:text="#{albums.title}"
           >Albums</a
         >
-        <a class="site-nav__link" href="/artists" th:text="#{artists.title}"
-          >Artists</a
-        >
-        <a
-          class="site-nav__link"
-          sec:authorize="isAnonymous()"
-          href="/login"
-          th:text="#{nav.login}"
-          >Login</a
-        >
-        <a
-          class="site-nav__link"
-          sec:authorize="isAnonymous()"
-          href="/register"
-          th:text="#{nav.register}"
-          >Register</a
-        >
-        <span class="site-nav__identity" sec:authorize="isAuthenticated()"
-          ><span th:text="#{nav.signedInAs}">Signed in as</span>
-          <strong sec:authentication="name"></strong
-        ></span>
-        <a
-          class="site-nav__link"
-          sec:authorize="isAuthenticated()"
-          th:if="${currentUserId != null}"
-          th:href="@{/users/{id}(id=${currentUserId})}"
-          th:text="#{nav.myProfile}"
-          >My Profile</a
-        >
-        <form class="site-nav__lang-form" method="get">
-          <label class="visually-hidden" for="lang" th:text="#{nav.language}"
-            >Language</label
-          >
-          <select
-            class="site-nav__lang-select"
-            id="lang"
-            name="lang"
-            onchange="this.form.submit()"
-          >
-            <option
-              value="en"
-              th:selected="${#locale.language == 'en'}"
-              th:text="#{lang.english}"
+        <details class="mobile-nav">
+          <summary>Menu</summary>
+          <div class="mobile-nav__panel">
+            <a class="site-nav__link" href="/albums" th:text="#{albums.title}"
+              >Albums</a
             >
-              English
-            </option>
-            <option
-              value="fi"
-              th:selected="${#locale.language == 'fi'}"
-              th:text="#{lang.finnish}"
+            <a class="site-nav__link" href="/artists" th:text="#{artists.title}"
+              >Artists</a
             >
-              Suomi
-            </option>
-          </select>
-        </form>
-        <form
-          class="site-nav__logout-form"
-          sec:authorize="isAuthenticated()"
-          th:action="@{/logout}"
-          method="post"
-        >
-          <input
-            type="hidden"
-            th:name="${_csrf.parameterName}"
-            th:value="${_csrf.token}"
-          />
-          <button type="submit" th:text="#{nav.logout}">Logout</button>
-        </form>
-      </nav>
+            <a
+              class="site-nav__link"
+              sec:authorize="isAnonymous()"
+              href="/login"
+              th:text="#{nav.login}"
+              >Login</a
+            >
+            <a
+              class="site-nav__link"
+              sec:authorize="isAnonymous()"
+              href="/register"
+              th:text="#{nav.register}"
+              >Register</a
+            >
+            <span class="site-nav__identity" sec:authorize="isAuthenticated()"
+              ><span th:text="#{nav.signedInAs}">Signed in as</span>
+              <strong sec:authentication="name"></strong
+            ></span>
+            <a
+              class="site-nav__link"
+              sec:authorize="isAuthenticated()"
+              th:if="${currentUserId != null}"
+              th:href="@{/users/{id}(id=${currentUserId})}"
+              th:text="#{nav.myProfile}"
+              >My Profile</a
+            >
+            <form class="site-nav__lang-form" method="get">
+              <label class="visually-hidden" for="mobile-lang" th:text="#{nav.language}"
+                >Language</label
+              >
+              <select
+                class="site-nav__lang-select"
+                id="mobile-lang"
+                name="lang"
+                onchange="this.form.submit()"
+              >
+                <option
+                  value="en"
+                  th:selected="${#locale.language == 'en'}"
+                  th:text="#{lang.english}"
+                >
+                  English
+                </option>
+                <option
+                  value="fi"
+                  th:selected="${#locale.language == 'fi'}"
+                  th:text="#{lang.finnish}"
+                >
+                  Suomi
+                </option>
+              </select>
+            </form>
+            <form
+              class="site-nav__logout-form"
+              sec:authorize="isAuthenticated()"
+              th:action="@{/logout}"
+              method="post"
+            >
+              <input
+                type="hidden"
+                th:name="${_csrf.parameterName}"
+                th:value="${_csrf.token}"
+              />
+              <button type="submit" th:text="#{nav.logout}">Logout</button>
+            </form>
+          </div>
+        </details>
+      </div>
     </div>
   </body>
 </html>
