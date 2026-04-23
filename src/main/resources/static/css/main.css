@@ -158,6 +158,32 @@ a:hover {
   margin: 0;
 }
 
+.site-nav__identity {
+  display: inline-flex;
+  gap: 0.35rem;
+  align-items: center;
+  padding: 0 0.25rem;
+  white-space: nowrap;
+}
+
+.site-nav__lang-form,
+.site-nav__logout-form {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.site-nav__lang-select {
+  width: auto;
+  min-width: 6.2rem;
+  padding: 0.58rem 0.72rem;
+  border-radius: 999px;
+}
+
+.site-nav__logout-form input[type="hidden"] {
+  display: none;
+}
+
 .site-nav strong {
   color: var(--accent);
   font-weight: 700;
@@ -306,6 +332,17 @@ form > div {
 label {
   font-size: 0.95rem;
   color: var(--muted);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }
 
 button {
@@ -881,21 +918,76 @@ p[th\:errors] {
 
 @media (max-width: 720px) {
   body {
-    padding-inline: 0.85rem;
+    padding: 1rem 0.75rem 2rem;
+  }
+
+  body::before {
+    opacity: 0.1;
+  }
+
+  h1 {
+    font-size: clamp(1.75rem, 9vw, 2.35rem);
+  }
+
+  .site-nav {
+    top: 0.45rem;
+    margin-bottom: 1rem;
+    padding: 0.7rem;
+    border-radius: 1rem;
   }
 
   .site-nav nav {
-    gap: 0.5rem;
+    flex-wrap: nowrap;
+    gap: 0.45rem;
+    overflow-x: auto;
+    padding-bottom: 0.15rem;
+    scrollbar-width: thin;
   }
 
   .site-nav a,
   .site-nav button,
-  body > a {
-    width: 100%;
+  .site-nav select {
+    flex: 0 0 auto;
+    width: auto;
+    padding: 0.58rem 0.78rem;
+    font-size: 0.92rem;
+  }
+
+  .site-nav__identity {
+    padding-left: 0.1rem;
+  }
+
+  body > form,
+  body > div:not(.site-nav),
+  .section-card,
+  .detail-hero,
+  .profile-hero,
+  .form-container,
+  .auth-card {
+    padding: 1rem;
+    border-radius: 1rem;
+  }
+
+  .detail-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .catalog-grid {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+
+  .section-card__header,
+  .review-card__header,
+  .review-card__footer {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.4rem;
   }
 
   ul > li {
     align-items: flex-start;
+    padding: 0.9rem;
   }
 
   .list-row,
@@ -905,5 +997,24 @@ p[th\:errors] {
 
   .list-row__actions {
     justify-content: flex-start;
+  }
+
+  .list-row__title,
+  .list-row__secondary a {
+    white-space: normal;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .form-actions > * {
+    width: 100%;
+  }
+
+  body > a,
+  .button-link,
+  .back-link {
+    width: 100%;
   }
 }

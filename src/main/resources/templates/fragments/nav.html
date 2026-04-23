@@ -6,31 +6,48 @@
   <body>
     <div th:fragment="nav" class="site-nav">
       <nav>
-        <a href="/albums" th:text="#{albums.title}">Albums</a>
-        <a href="/artists" th:text="#{artists.title}">Artists</a>
-        <a sec:authorize="isAnonymous()" href="/login" th:text="#{nav.login}"
+        <a class="site-nav__link" href="/albums" th:text="#{albums.title}"
+          >Albums</a
+        >
+        <a class="site-nav__link" href="/artists" th:text="#{artists.title}"
+          >Artists</a
+        >
+        <a
+          class="site-nav__link"
+          sec:authorize="isAnonymous()"
+          href="/login"
+          th:text="#{nav.login}"
           >Login</a
         >
         <a
+          class="site-nav__link"
           sec:authorize="isAnonymous()"
           href="/register"
           th:text="#{nav.register}"
           >Register</a
         >
-        <span sec:authorize="isAuthenticated()"
+        <span class="site-nav__identity" sec:authorize="isAuthenticated()"
           ><span th:text="#{nav.signedInAs}">Signed in as</span>
           <strong sec:authentication="name"></strong
         ></span>
         <a
+          class="site-nav__link"
           sec:authorize="isAuthenticated()"
           th:if="${currentUserId != null}"
           th:href="@{/users/{id}(id=${currentUserId})}"
           th:text="#{nav.myProfile}"
           >My Profile</a
         >
-        <form method="get" style="display: inline">
-          <label for="lang" th:text="#{nav.language}">Language</label>
-          <select id="lang" name="lang" onchange="this.form.submit()">
+        <form class="site-nav__lang-form" method="get">
+          <label class="visually-hidden" for="lang" th:text="#{nav.language}"
+            >Language</label
+          >
+          <select
+            class="site-nav__lang-select"
+            id="lang"
+            name="lang"
+            onchange="this.form.submit()"
+          >
             <option
               value="en"
               th:selected="${#locale.language == 'en'}"
@@ -48,10 +65,10 @@
           </select>
         </form>
         <form
+          class="site-nav__logout-form"
           sec:authorize="isAuthenticated()"
           th:action="@{/logout}"
           method="post"
-          style="display: inline"
         >
           <input
             type="hidden"
