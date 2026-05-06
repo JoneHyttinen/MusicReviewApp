@@ -13,6 +13,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Review {
@@ -20,13 +22,16 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @Min(0)
     @Max(100)
     @Column(nullable = false)
-    private int rating;
+    private Integer rating;
 
+    @NotBlank
     private String title;
 
+    @NotBlank
     @Column(length = 3000)
     private String content;
 
@@ -48,7 +53,7 @@ public class Review {
     public Review() {
     }
 
-    public Review(@Min(0) @Max(100) int rating, String title, String content, LocalDateTime createdAt,
+    public Review(@NotNull @Min(0) @Max(100) Integer rating, String title, String content, LocalDateTime createdAt,
             LocalDateTime updatedAt, User user, Album album) {
         this.rating = rating;
         this.title = title;
@@ -67,11 +72,11 @@ public class Review {
         this.id = id;
     }
 
-    public int getRating() {
+    public Integer getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(Integer rating) {
         this.rating = rating;
     }
 

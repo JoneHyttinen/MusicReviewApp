@@ -61,6 +61,10 @@ public class AlbumController {
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public String saveAlbum(@Valid @ModelAttribute Album album, BindingResult result, Model model) {
+        if (album.getArtist() == null || album.getArtist().getId() == null) {
+            result.rejectValue("artist", "album.artist.required", "Artist is required");
+        }
+
         if (result.hasErrors()) {
             if (album.getArtist() == null) {
                 album.setArtist(new Artist());

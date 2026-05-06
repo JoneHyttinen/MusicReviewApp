@@ -20,12 +20,17 @@
 
       <div>
         <label th:text="#{form.title} + ':'">Title:</label>
-        <input type="text" th:field="*{title}" />
+        <input type="text" th:field="*{title}" required />
+        <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
       </div>
 
       <div>
         <label th:text="#{form.releaseYear} + ':'">Release Year:</label>
-        <input type="number" th:field="*{releaseYear}" />
+        <input type="number" th:field="*{releaseYear}" min="1" required />
+        <p
+          th:if="${#fields.hasErrors('releaseYear')}"
+          th:errors="*{releaseYear}"
+        ></p>
       </div>
 
       <div>
@@ -53,13 +58,14 @@
 
       <div>
         <label th:text="#{form.artist} + ':'">Artist:</label>
-        <select th:field="*{artist.id}">
+        <select th:field="*{artist.id}" required>
           <option
             th:each="artist : ${artists}"
             th:value="${artist.id}"
             th:text="${artist.name}"
           ></option>
         </select>
+        <p th:if="${#fields.hasErrors('artist')}" th:errors="*{artist}"></p>
       </div>
 
       <button type="submit" th:text="#{button.save}">Save</button>

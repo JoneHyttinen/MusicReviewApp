@@ -4,6 +4,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,10 +12,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.musicreview.model.Album;
+import com.example.musicreview.model.Artist;
 import com.example.musicreview.model.Review;
 import com.example.musicreview.service.AlbumService;
 import com.example.musicreview.service.ReviewService;
 import com.example.musicreview.service.UserService;
+
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/reviews")
@@ -66,9 +70,24 @@ public class ReviewController {
     // SAVE
     @PostMapping
     @PreAuthorize("isAuthenticated()")
-    public String saveReview(@ModelAttribute Review review, Authentication authentication) {
+    public String saveReview(@Valid @ModelAttribute Review review, BindingResult result, Authentication authentication,
+            Model model) {
         if (!isLoggedIn(authentication)) {
             return "redirect:/login";
+        }
+
+        if (review.getAlbum() == null) {
+            review.setAlbum(new Album());
+            review.getAlbum().setArtist(new Artist());
+        }
+
+        if (review.getAlbum() != null && review.getAlbum().getId() != null) {
+            review.setAlbum(albumService.findById(review.getAlbum().getId()));
+        }
+
+        if (result.hasErrors()) {
+            model.addAttribute("review", review);
+            return "reviews/form";
         }
 
         if (review.getId() != null) {
