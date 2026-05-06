@@ -26,6 +26,7 @@ public class Album {
     @Column(nullable = false)
     private String title;
 
+    @NotBlank
     private String genre;
 
     @Min(1)
@@ -48,7 +49,7 @@ public class Album {
     public Album() {
     }
 
-    public Album(@NotBlank String title, String genre, int releaseYear, String description, Artist artist,
+    public Album(@NotBlank String title, @NotBlank String genre, int releaseYear, String description, Artist artist,
             List<Review> reviews) {
         this.title = title;
         this.genre = genre;
