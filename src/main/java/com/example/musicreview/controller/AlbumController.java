@@ -61,6 +61,19 @@ public class AlbumController {
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public String saveAlbum(@Valid @ModelAttribute Album album, BindingResult result, Model model) {
+
+        if (album.getTitle() == null || album.getTitle().isBlank()) {
+            result.rejectValue("title", "album.title.required", "Title is required");
+        }
+
+        if (album.getGenre() != null && album.getGenre().length() > 255) {
+            result.rejectValue("genre", "album.genre.length", "Genre must be less than 255 characters");
+        }
+
+        if (album.getGenre() == null || album.getGenre().isBlank()) {
+            result.rejectValue("genre", "album.genre.required", "Genre is required");
+        }
+
         if (album.getArtist() == null || album.getArtist().getId() == null) {
             result.rejectValue("artist", "album.artist.required", "Artist is required");
         }
