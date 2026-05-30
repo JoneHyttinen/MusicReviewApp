@@ -3,6 +3,8 @@
 MusicReview is a Spring Boot web application for browsing artists and albums, writing album reviews, and managing user profiles.
 It includes a server-rendered UI (Thymeleaf) and basic REST endpoints for albums, artists, and reviews.
 
+Application is deployed on https://music-review-application-music-review-app.2.rahtiapp.fi
+
 ## Features
 
 - User registration and login
