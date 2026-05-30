@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -32,7 +33,7 @@ public class Artist {
     private String imageUrl;
 
     @JsonIgnoreProperties({ "artist", "reviews" })
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "artist")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, mappedBy = "artist", orphanRemoval = true)
     private List<Album> albums;
 
     public Artist() {
