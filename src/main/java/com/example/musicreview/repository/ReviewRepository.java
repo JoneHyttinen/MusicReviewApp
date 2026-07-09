@@ -16,6 +16,8 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     long countByAlbum(Album album);
 
+    long countByAlbumId(Long albumId);
+
     List<Review> findByUser(User user);
 
     List<Review> findTop5ByUserOrderByCreatedAtDesc(User user);
@@ -24,6 +26,9 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     @Query("SELECT AVG(r.rating) FROM Review r WHERE r.album = :album")
     Double findAverageRatingByAlbum(@Param("album") Album album);
+
+    @Query("SELECT AVG(r.rating) FROM Review r WHERE r.album.id = :albumId")
+    Double findAverageRatingByAlbumId(@Param("albumId") Long albumId);
 
     @Query("SELECT AVG(r.rating) FROM Review r WHERE r.user = :user")
     Double findAverageRatingByUser(@Param("user") User user);

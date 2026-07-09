@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.musicreview.dto.AlbumSummaryDto;
+import com.example.musicreview.mapper.AlbumMapper;
 import com.example.musicreview.model.Album;
 import com.example.musicreview.model.Artist;
 import com.example.musicreview.repository.AlbumRepository;
@@ -13,29 +15,29 @@ import com.example.musicreview.repository.AlbumRepository;
 public class AlbumService {
 
     private final AlbumRepository albumRepository;
+    private final AlbumMapper albumMapper;
 
-    public AlbumService(AlbumRepository albumRepository) {
+    public AlbumService(AlbumRepository albumRepository, AlbumMapper albumMapper) {
         this.albumRepository = albumRepository;
+        this.albumMapper = albumMapper;
     }
 
     public List<Album> findAll() {
         return albumRepository.findAll();
     }
 
-    public List<Album> findAllSortedByGenre() {
+    public List<AlbumSummaryDto> findAllSortedByGenre() {
         return albumRepository.findAll().stream()
-                .sorted(Comparator
-                        .comparing(Album::getGenre,
-                                Comparator.nullsLast(String.CASE_INSENSITIVE_ORDER))
-                        .thenComparing(album -> album.getArtist() == null ? null : album.getArtist().getName(),
-                                Comparator.nullsLast(String.CASE_INSENSITIVE_ORDER))
+                .sorted(Comparator.comparing(Album::getGenre, String.CASE_INSENSITIVE_ORDER)
                         .thenComparing(Album::getTitle, String.CASE_INSENSITIVE_ORDER))
+                .map(albumMapper::toSummaryDto)
                 .toList();
     }
 
-    public List<Album> findByArtist(Artist artist) {
+    public List<AlbumSummaryDto> findByArtist(Artist artist) {
         return albumRepository.findByArtist(artist).stream()
                 .sorted(Comparator.comparing(Album::getTitle, String.CASE_INSENSITIVE_ORDER))
+                .map(albumMapper::toSummaryDto)
                 .toList();
     }
 

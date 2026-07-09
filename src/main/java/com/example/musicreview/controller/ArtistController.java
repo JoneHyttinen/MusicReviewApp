@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.musicreview.dto.AlbumSummaryDto;
+import com.example.musicreview.dto.ArtistSummaryDto;
 import com.example.musicreview.model.Artist;
 import com.example.musicreview.service.AlbumService;
 import com.example.musicreview.service.ArtistService;
@@ -40,10 +42,10 @@ public class ArtistController {
     // LIST
     @GetMapping
     public String listArtists(@RequestParam(required = false) String keyword, Model model) {
-        List<Artist> artists;
+        List<ArtistSummaryDto> artists;
 
         if (keyword != null && !keyword.trim().isEmpty()) {
-            artists = artistService.search(keyword);
+            artists = artistService.searchSummary(keyword);
         } else {
             artists = artistService.findAllSortedByGenre();
         }
@@ -57,7 +59,7 @@ public class ArtistController {
     @GetMapping("/{id}")
     public String showArtistDetails(@PathVariable Long id, Model model) {
         var artist = artistService.findById(id);
-        List<com.example.musicreview.model.Album> albums = albumService.findByArtist(artist);
+        List<AlbumSummaryDto> albums = albumService.findByArtist(artist);
 
         Map<Long, Double> albumAverageRatings = new LinkedHashMap<>();
         for (var album : albums) {
@@ -69,7 +71,7 @@ public class ArtistController {
             albumAverageRatings.put(album.getId(), reviewService.getAverageRatingForAlbum(album));
         }
 
-        Double artistAverageRating = reviewService.getAverageRatingForAlbums(albums);
+        Double artistAverageRating = reviewService.getAverageRatingForAlbumDtos(albums);
 
         model.addAttribute("artist", artist);
         model.addAttribute("albums", albums);
@@ -116,9 +118,9 @@ public class ArtistController {
         return "redirect:/artists";
     }
 
-    private Map<String, List<Artist>> groupArtistsByGenre(List<Artist> artists) {
-        Map<String, List<Artist>> artistsByGenre = new LinkedHashMap<>();
-        for (Artist artist : artists) {
+    private Map<String, List<ArtistSummaryDto>> groupArtistsByGenre(List<ArtistSummaryDto> artists) {
+        Map<String, List<ArtistSummaryDto>> artistsByGenre = new LinkedHashMap<>();
+        for (ArtistSummaryDto artist : artists) {
             String genre = normalizeGenre(artist.getGenre());
             artistsByGenre.computeIfAbsent(genre, ignored -> new ArrayList<>()).add(artist);
         }

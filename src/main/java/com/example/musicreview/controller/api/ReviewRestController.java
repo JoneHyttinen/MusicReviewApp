@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.musicreview.model.Review;
+import com.example.musicreview.dto.ReviewSummaryDto;
 import com.example.musicreview.service.ReviewService;
 
 @RestController
@@ -20,7 +20,7 @@ public class ReviewRestController {
     }
 
     @GetMapping
-    public List<Review> getAllReviews() {
+    public List<ReviewSummaryDto> getAllReviews() {
         return reviewService.findAll();
     }
 }

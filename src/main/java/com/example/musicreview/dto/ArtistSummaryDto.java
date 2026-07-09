@@ -3,6 +3,8 @@ package com.example.musicreview.dto;
 public class ArtistSummaryDto {
     private Long id;
     private String name;
+    private String genre;
+    private String imageUrl;
 
     public ArtistSummaryDto() {
     }
@@ -21,5 +23,21 @@ public class ArtistSummaryDto {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

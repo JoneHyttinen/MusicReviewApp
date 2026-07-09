@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.musicreview.dto.AlbumSummaryDto;
 import com.example.musicreview.model.Album;
 import com.example.musicreview.model.Artist;
 import com.example.musicreview.service.AlbumService;
@@ -40,7 +41,7 @@ public class AlbumController {
     // LIST
     @GetMapping
     public String listAlbums(Model model) {
-        List<Album> albums = albumService.findAllSortedByGenre();
+        List<AlbumSummaryDto> albums = albumService.findAllSortedByGenre();
         model.addAttribute("albumsByGenre", groupAlbumsByGenre(albums));
         return "albums/list";
     }
@@ -126,9 +127,9 @@ public class AlbumController {
         return "albums/details";
     }
 
-    private Map<String, List<Album>> groupAlbumsByGenre(List<Album> albums) {
-        Map<String, List<Album>> albumsByGenre = new LinkedHashMap<>();
-        for (Album album : albums) {
+    private Map<String, List<AlbumSummaryDto>> groupAlbumsByGenre(List<AlbumSummaryDto> albums) {
+        Map<String, List<AlbumSummaryDto>> albumsByGenre = new LinkedHashMap<>();
+        for (AlbumSummaryDto album : albums) {
             String genre = normalizeGenre(album.getGenre());
             albumsByGenre.computeIfAbsent(genre, ignored -> new ArrayList<>()).add(album);
         }

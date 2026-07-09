@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.musicreview.dto.ArtistSummaryDto;
+import com.example.musicreview.mapper.ArtistMapper;
 import com.example.musicreview.model.Artist;
 import com.example.musicreview.repository.ArtistRepository;
 
@@ -12,20 +14,22 @@ import com.example.musicreview.repository.ArtistRepository;
 public class ArtistService {
 
     private final ArtistRepository artistRepository;
+    private final ArtistMapper artistMapper;
 
-    public ArtistService(ArtistRepository artistRepository) {
+    public ArtistService(ArtistRepository artistRepository, ArtistMapper artistMapper) {
         this.artistRepository = artistRepository;
+        this.artistMapper = artistMapper;
     }
 
     public List<Artist> findAll() {
         return artistRepository.findAll();
     }
 
-    public List<Artist> findAllSortedByGenre() {
-        return artistRepository.findAll().stream()
+    public List<ArtistSummaryDto> findAllSortedByGenre() {
+        return artistMapper.toSummaryDtos(artistRepository.findAll().stream()
                 .sorted(Comparator.comparing(Artist::getGenre, Comparator.nullsLast(String.CASE_INSENSITIVE_ORDER))
                         .thenComparing(Artist::getName, String.CASE_INSENSITIVE_ORDER))
-                .toList();
+                .toList());
     }
 
     public Artist save(Artist artist) {
@@ -45,5 +49,9 @@ public class ArtistService {
                 .sorted(Comparator.comparing(Artist::getGenre, Comparator.nullsLast(String.CASE_INSENSITIVE_ORDER))
                         .thenComparing(Artist::getName, String.CASE_INSENSITIVE_ORDER))
                 .toList();
+    }
+
+    public List<ArtistSummaryDto> searchSummary(String keyword) {
+        return artistMapper.toSummaryDtos(search(keyword));
     }
 }
