@@ -21,8 +21,8 @@ public class ArtistService {
         this.artistMapper = artistMapper;
     }
 
-    public List<Artist> findAll() {
-        return artistRepository.findAll();
+    public List<ArtistSummaryDto> findAll() {
+        return artistMapper.toSummaryDtos(artistRepository.findAll());
     }
 
     public List<ArtistSummaryDto> findAllSortedByGenre() {

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.musicreview.dto.AlbumSummaryDto;
 import com.example.musicreview.model.Album;
 import com.example.musicreview.service.AlbumService;
 
@@ -21,7 +22,7 @@ public class AlbumRestController {
     }
 
     @GetMapping
-    public List<Album> getAllAlbums() {
+    public List<AlbumSummaryDto> getAllAlbums() {
         return albumService.findAll();
     }
 

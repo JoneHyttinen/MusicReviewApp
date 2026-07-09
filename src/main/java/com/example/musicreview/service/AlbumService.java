@@ -22,8 +22,10 @@ public class AlbumService {
         this.albumMapper = albumMapper;
     }
 
-    public List<Album> findAll() {
-        return albumRepository.findAll();
+    public List<AlbumSummaryDto> findAll() {
+        return albumRepository.findAll().stream()
+                .map(albumMapper::toSummaryDto)
+                .toList();
     }
 
     public List<AlbumSummaryDto> findAllSortedByGenre() {
