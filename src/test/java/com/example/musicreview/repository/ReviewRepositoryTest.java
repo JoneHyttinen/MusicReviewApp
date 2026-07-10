@@ -1,7 +1,5 @@
 package com.example.musicreview.repository;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -13,8 +11,8 @@ import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import com.example.musicreview.model.Album;
 import com.example.musicreview.model.Artist;
 import com.example.musicreview.model.Review;
-import com.example.musicreview.model.Role;
 import com.example.musicreview.model.User;
+import com.example.musicreview.testutil.TestDataFactory;
 
 @DataJpaTest
 public class ReviewRepositoryTest {
@@ -35,32 +33,13 @@ public class ReviewRepositoryTest {
     @DisplayName("Test findByAlbum returns reviews for the given album")
     void testFindReviewsByAlbum() {
 
-        Artist artist = new Artist();
-        artist.setName("Linkin Park");
-        artist = artistRepository.save(artist);
+        Artist artist = artistRepository.save(TestDataFactory.createArtist());
 
-        Album album = new Album();
-        album.setTitle("Hybrid Theory");
-        album.setArtist(artist);
-        album.setGenre("Nu Metal");
-        album.setReleaseYear(2000);
-        album = albumRepository.save(album);
+        Album album = albumRepository.save(TestDataFactory.createAlbum(artist));
 
-        User user = new User();
-        user.setUsername("pekka");
-        user.setEmail("pekka@example.com");
-        user.setPassword("password");
-        user.setRole(Role.USER);
-        user.setJoinDate(LocalDate.now());
-        user = userRepository.save(user);
+        User user = userRepository.save(TestDataFactory.createUser());
 
-        Review review = new Review();
-        review.setAlbum(album);
-        review.setUser(user);
-        review.setTitle("Amazing");
-        review.setContent("This album is a masterpiece!");
-        review.setRating(90);
-        review.setCreatedAt(LocalDateTime.now());
+        Review review = TestDataFactory.createReview(user, album);
 
         reviewRepository.save(review);
 
