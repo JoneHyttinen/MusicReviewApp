@@ -54,6 +54,17 @@ public class TestDataFactory {
         return review;
     }
 
+    public static Review createReview(User user, Album album, Integer rating) {
+        Review review = new Review();
+        review.setTitle("Review Title");
+        review.setRating(rating);
+        review.setContent("Review Content");
+        review.setCreatedAt(LocalDateTime.now());
+        review.setUser(user);
+        review.setAlbum(album);
+        return review;
+    }
+
     public static Review createReview(String title, User user, Album album, Integer rating, String content) {
         Review review = new Review();
         review.setTitle(title);

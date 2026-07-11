@@ -24,12 +24,12 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     long countByUser(User user);
 
-    @Query("SELECT AVG(r.rating) FROM Review r WHERE r.album = :album")
+    @Query("SELECT COALESCE(AVG(r.rating), 0.0) FROM Review r WHERE r.album = :album")
     Double findAverageRatingByAlbum(@Param("album") Album album);
 
-    @Query("SELECT AVG(r.rating) FROM Review r WHERE r.album.id = :albumId")
+    @Query("SELECT COALESCE(AVG(r.rating), 0.0) FROM Review r WHERE r.album.id = :albumId")
     Double findAverageRatingByAlbumId(@Param("albumId") Long albumId);
 
-    @Query("SELECT AVG(r.rating) FROM Review r WHERE r.user = :user")
+    @Query("SELECT COALESCE(AVG(r.rating), 0.0) FROM Review r WHERE r.user = :user")
     Double findAverageRatingByUser(@Param("user") User user);
 }
