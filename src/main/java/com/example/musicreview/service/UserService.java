@@ -1,8 +1,13 @@
 package com.example.musicreview.service;
 
+import java.security.SecureRandom;
 import java.time.LocalDate;
+import java.util.Base64;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,15 +23,22 @@ import com.example.musicreview.repository.UserRepository;
 @Service
 public class UserService implements UserDetailsService {
 
+    private static final Logger log = LoggerFactory.getLogger(UserService.class);
+    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
+    private static final int BOOTSTRAP_PASSWORD_BYTES = 24;
+
     private final UserRepository userRepository;
     private final ReviewRepository reviewRepository;
     private final PasswordEncoder passwordEncoder;
+    private final String adminBootstrapPassword;
 
     public UserService(UserRepository userRepository, ReviewRepository reviewRepository,
-            PasswordEncoder passwordEncoder) {
+            PasswordEncoder passwordEncoder,
+            @Value("${ADMIN_BOOTSTRAP_PASSWORD:}") String adminBootstrapPassword) {
         this.userRepository = userRepository;
         this.reviewRepository = reviewRepository;
         this.passwordEncoder = passwordEncoder;
+        this.adminBootstrapPassword = adminBootstrapPassword;
     }
 
     public List<User> findAll() {
@@ -77,14 +89,32 @@ public class UserService implements UserDetailsService {
             return;
         }
 
+        String bootstrapPassword = resolveAdminBootstrapPassword();
+
         User admin = new User();
         admin.setUsername("admin");
         admin.setEmail("admin@musicreview.local");
-        admin.setPassword("$2a$10$CPlgQw3vmqvlQnIA0LjElu6SKZbFSf4YE8Oj3FS5wRacvLqQXf79G");
+        admin.setPassword(passwordEncoder.encode(bootstrapPassword));
         admin.setRole(Role.ADMIN);
         admin.setJoinDate(LocalDate.now());
         admin.setProfileImageUrl("/images/user-placeholder.svg");
         userRepository.save(admin);
+
+        if (adminBootstrapPassword == null || adminBootstrapPassword.isBlank()) {
+            log.warn("Created bootstrap admin user 'admin' with a generated one-time password: {}", bootstrapPassword);
+        } else {
+            log.info("Created bootstrap admin user 'admin' using ADMIN_BOOTSTRAP_PASSWORD");
+        }
+    }
+
+    private String resolveAdminBootstrapPassword() {
+        if (adminBootstrapPassword != null && !adminBootstrapPassword.isBlank()) {
+            return adminBootstrapPassword;
+        }
+
+        byte[] randomBytes = new byte[BOOTSTRAP_PASSWORD_BYTES];
+        SECURE_RANDOM.nextBytes(randomBytes);
+        return Base64.getUrlEncoder().withoutPadding().encodeToString(randomBytes);
     }
 
     @Override

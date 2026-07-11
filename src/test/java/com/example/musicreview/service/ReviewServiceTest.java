@@ -54,4 +54,22 @@ public class ReviewServiceTest {
 
         verify(reviewRepository, times(1)).save(saved);
     }
+
+    @Test
+    @DisplayName("update sets updatedAt and saves the review")
+    void testUpdateSetsUpdatedAt() {
+        Album album = TestDataFactory.createAlbum(TestDataFactory.createArtist());
+        User user = TestDataFactory.createUser();
+        Review review = TestDataFactory.createReview(user, album);
+
+        when(reviewRepository.save(any(Review.class))).thenAnswer(inv -> inv.getArgument(0));
+
+        Review updated = reviewService.update(review);
+
+        assertNotNull(updated.getUpdatedAt(), "updatedAt should be set by the service");
+        assertTrue(updated.getUpdatedAt().isBefore(LocalDateTime.now().plusSeconds(1)),
+                "updatedAt should be recent");
+
+        verify(reviewRepository, times(1)).save(updated);
+    }
 }

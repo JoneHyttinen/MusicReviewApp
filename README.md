@@ -63,8 +63,9 @@ It includes a server-rendered UI (Thymeleaf) and basic REST endpoints for albums
 ### Default admin bootstrap
 
 On startup, the app ensures an `admin` user exists.
-The user is created in code with a pre-hashed password in `UserService.ensureAdminUserExists()`.
-If needed, change credentials directly in the database or update the initialization logic.
+The bootstrap password is read from `ADMIN_BOOTSTRAP_PASSWORD`.
+If that variable is not set, the app generates a one-time random password and logs it during startup.
+After first login, rotate the password immediately and store it outside source control.
 
 ## Local Development
 
@@ -119,6 +120,7 @@ Useful environment variables:
 
 - `H2_DB_PATH` - local H2 database file path
 - `APP_UPLOAD_DIR` - directory for uploaded profile images (default `./uploads` locally)
+- `ADMIN_BOOTSTRAP_PASSWORD` - optional initial password for the `admin` user; if omitted, a random one-time password is generated and logged on startup
 - `SPRING_PROFILES_ACTIVE` - active profile (Docker image defaults to `rahti`)
 
 ### Rahti / PostgreSQL profile
